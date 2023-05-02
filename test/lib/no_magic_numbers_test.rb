@@ -13,7 +13,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::IVASGN_MSG)
+      assert_offense(described_class::INSTANCE_VARIABLE_ASSIGN_MSG)
     end
 
     def test_detects_magic_floats_assigned_to_instance_variables
@@ -23,7 +23,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::IVASGN_MSG)
+      assert_offense(described_class::INSTANCE_VARIABLE_ASSIGN_MSG)
     end
 
     def test_detects_magic_integers_assigned_to_local_variables
@@ -33,7 +33,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::LVASGN_MSG)
+      assert_offense(described_class::LOCAL_VARIABLE_ASSIGN_MSG)
     end
 
     def test_detects_magic_floats_assigned_to_local_variables
@@ -43,7 +43,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::LVASGN_MSG)
+      assert_offense(described_class::LOCAL_VARIABLE_ASSIGN_MSG)
     end
 
     def test_detects_magic_integers_assigned_via_attr_writers_on_self

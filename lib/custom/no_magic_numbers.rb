@@ -12,26 +12,29 @@ module Custom
   class NoMagicNumbers < ::RuboCop::Cop::Cop
     ILLEGAL_SCALAR_TYPES = %i[float int].freeze
     MAGIC_NUMBER_ARGUMENT_PATTERN = "(send ({send self} ... ) _ (${#{ILLEGAL_SCALAR_TYPES.join(' ')}} _))".freeze
-    LVASGN_MSG = 'Do not use magic number local variables'
-    IVASGN_MSG = 'Do not use magic number instance variables'
+    LOCAL_VARIABLE_ASSIGN_MSG = 'Do not use magic number local variables'
+    INSTANCE_VARIABLE_ASSIGN_MSG = 'Do not use magic number instance variables'
     PROPERTY_MSG = 'Do not use magic numbers to set properties'
     UNARY_MSG = 'Do not use magic numbers in unary methods'
     UNARY_LENGTH = 1
 
-    def on_lvasgn(node)
-      return unless magic_number_lvar?(node)
+    def on_local_variable_assignment(node)
+      return unless magic_number_local_variable?(node)
 
-      add_offense(node, location: :expression, message: LVASGN_MSG)
+      add_offense(node, location: :expression, message: LOCAL_VARIABLE_ASSIGN_MSG)
     end
+    alias on_lvasgn on_local_variable_assignment # rubocop API method name
 
-    def on_ivasgn(node)
-      return unless magic_number_ivar?(node)
 
-      add_offense(node, location: :expression, message: IVASGN_MSG)
+    def on_instance_variable_assignment(node)
+      return unless magic_number_instance_variable?(node)
+
+      add_offense(node, location: :expression, message: INSTANCE_VARIABLE_ASSIGN_MSG)
     end
+    alias on_ivasgn on_instance_variable_assignment # rubocop API method name
 
-    def on_send(node)
-      return unless illegal_scalar_argument?(node)
+    def on_message_send(node)
+      return unless magic_number_method_argument?(node)
 
       if assignment?(node)
         add_offense(node, location: :expression, message: PROPERTY_MSG)
@@ -39,21 +42,28 @@ module Custom
         add_offense(node, location: :expression, message: UNARY_MSG)
       end
     end
+    alias on_send on_message_send # rubocop API method name
 
     private
 
-    def magic_number_lvar?(node)
+    def magic_number_local_variable?(node)
       return false unless node.lvasgn_type?
 
       value = node.children.last
       ILLEGAL_SCALAR_TYPES.include?(value.type)
     end
 
-    def magic_number_ivar?(node)
+    def magic_number_instance_variable?(node)
       return false unless node.ivasgn_type?
 
       value = node.children.last
       ILLEGAL_SCALAR_TYPES.include?(value.type)
+    end
+
+    def magic_number_method_argument?(node)
+      return false unless node.send_type?
+
+      RuboCop::AST::NodePattern.new(MAGIC_NUMBER_ARGUMENT_PATTERN).match(node)
     end
 
     def assignment?(node)
