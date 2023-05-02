@@ -1,10 +1,10 @@
 module Custom
   class NoMagicNumbers < ::RuboCop::Cop::Cop
     ILLEGAL_SCALAR_TYPES = %i[float int]
-
+    ASSIGNS_VIA_ATTR_WRITER_PATTERN = "(send ({send self} ... ) _ (${int float} _))"
     LVASGN_MSG = "Do not use magic number local variables".freeze
     IVASGN_MSG = "Do not use magic number instance variables".freeze
-    # SEND_MSG = "Do not use magic number properties".freeze
+    SEND_MSG = "Do not use magic numbers to set properties".freeze
 
     def on_lvasgn(node)
       if magic_number_lvar?(node)
@@ -42,7 +42,7 @@ module Custom
 
       def anonymous_setter_assign?(node)
         return false unless node.send_type?
-        return false unless RuboCop::AST::NodePattern.new("(send (send ... ) _ (${int float} _))").match(node)
+        return false unless RuboCop::AST::NodePattern.new(ASSIGNS_VIA_ATTR_WRITER_PATTERN).match(node)
 
         value = node.children.last
         ILLEGAL_SCALAR_TYPES.include?(value.type)
