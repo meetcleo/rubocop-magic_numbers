@@ -5,14 +5,20 @@ require 'byebug'
 require 'rubocop'
 
 module TestHelper
-  def assert_offense(violation_message)
-    refute_empty(cop.offenses, "Expected a #{cop.cop_name} offense to be detected but there was none")
+  def assert_offense(cop_name = nil, violation_message = nil)
+    matching_offenses = cop_name.nil? ? cop.offenses : cop.offenses.select { _1.cop_name == cop_name }
+    message = ['Expected an offense', 'to be detected but there was none']
+    message.insert(1, "named #{cop_name}") if cop_name
+    message_string = message.join(' ')
+
+    refute_empty(matching_offenses, message_string)
     assert_equal(cop.offenses.first.message, violation_message) if cop.offenses.any?
   end
 
   def assert_no_offenses(cop_name = nil)
     matching_offenses = cop_name.nil? ? cop.offenses : cop.offenses.select { _1.cop_name == cop_name }
-    assert_empty(matching_offenses, "Expected no offense to be detected but there was one")
+
+    assert_empty(matching_offenses, 'Expected no offense to be detected but there was one')
   end
   alias refute_offense assert_no_offenses
 
