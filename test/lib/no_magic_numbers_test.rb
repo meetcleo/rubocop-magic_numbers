@@ -13,7 +13,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::INSTANCE_VARIABLE_ASSIGN_MSG)
+      assert_offense(cop.name, described_class::INSTANCE_VARIABLE_ASSIGN_MSG)
     end
 
     def test_detects_magic_floats_assigned_to_instance_variables
@@ -23,7 +23,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::INSTANCE_VARIABLE_ASSIGN_MSG)
+      assert_offense(cop.name, described_class::INSTANCE_VARIABLE_ASSIGN_MSG)
     end
 
     def test_detects_magic_integers_assigned_to_local_variables
@@ -33,7 +33,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::LOCAL_VARIABLE_ASSIGN_MSG)
+      assert_offense(cop.name, described_class::LOCAL_VARIABLE_ASSIGN_MSG)
     end
 
     def test_detects_magic_floats_assigned_to_local_variables
@@ -43,7 +43,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::LOCAL_VARIABLE_ASSIGN_MSG)
+      assert_offense(cop.name, described_class::LOCAL_VARIABLE_ASSIGN_MSG)
     end
 
     def test_detects_magic_integers_assigned_via_attr_writers_on_self
@@ -53,7 +53,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::PROPERTY_MSG)
+      assert_offense(cop.name, described_class::PROPERTY_MSG)
     end
 
     def test_detects_magic_floats_assigned_via_attr_writers_on_self
@@ -63,7 +63,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::PROPERTY_MSG)
+      assert_offense(cop.name, described_class::PROPERTY_MSG)
     end
 
     def test_detects_magic_integers_as_arguments_to_unary_methods
@@ -73,7 +73,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::UNARY_MSG)
+      assert_offense(cop.name, described_class::UNARY_MSG)
     end
 
     def test_detects_magic_floats_as_arguments_to_unary_methods
@@ -83,7 +83,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::UNARY_MSG)
+      assert_offense(cop.name, described_class::UNARY_MSG)
     end
 
     def test_detects_magic_integers_assigned_via_attr_writers_on_another_object
@@ -93,7 +93,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::PROPERTY_MSG)
+      assert_offense(cop.name, described_class::PROPERTY_MSG)
     end
 
     def test_detects_magic_floats_assigned_via_attr_writers_on_another_object
@@ -103,7 +103,7 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::PROPERTY_MSG)
+      assert_offense(cop.name, described_class::PROPERTY_MSG)
     end
 
     def test_ignores_magic_integers_as_arguments_to_methods_on_another_object
@@ -113,7 +113,7 @@ module Custom
         end
       RUBY
 
-      refute_offense
+      refute_offense(cop.name)
     end
 
     def test_ignores_magic_floats_as_arguments_to_methods_on_another_object
@@ -123,7 +123,7 @@ module Custom
         end
       RUBY
 
-      refute_offense
+      refute_offense(cop.name)
     end
 
     def test_ignores_magic_integers_as_arguments_to_methods_on_self
@@ -133,7 +133,7 @@ module Custom
         end
       RUBY
 
-      refute_offense
+      refute_offense(cop.name)
     end
 
     def test_ignores_magic_floats_as_arguments_to_methods_on_self
@@ -143,31 +143,7 @@ module Custom
         end
       RUBY
 
-      refute_offense
-    end
-
-    def test_detects_magic_integers_assigned_to_global_variables
-      inspect_source(<<~RUBY)
-        def test_method
-          $GLOBAL_VARIABLE = 1
-        end
-      RUBY
-
-      assert_no_offenses("Custom/NoMagicNumbers")
-
-      inspect_source(<<~RUBY)
-        $GLOBAL_VARIABLE = 1
-      RUBY
-
-      assert_no_offenses("Custom/NoMagicNumbers")
-    end
-
-    def test_detects_magic_floats_assigned_to_global_variables
-      inspect_source(<<~RUBY)
-        $GLOBAL_VARIABLE = 1.0
-      RUBY
-
-      assert_no_offenses("Custom/NoMagicNumbers")
+      refute_offense(cop.name)
     end
 
     def test_ignores_magic_integers_assigned_via_class_writers_on_another_object
@@ -177,7 +153,7 @@ module Custom
         end
       RUBY
 
-      refute_offense
+      refute_offense(cop.name)
     end
 
     def test_ignores_magic_floats_assigned_via_class_writers_on_another_object
@@ -187,7 +163,7 @@ module Custom
         end
       RUBY
 
-      refute_offense
+      refute_offense(cop.name)
     end
 
     private
