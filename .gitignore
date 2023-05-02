@@ -1,0 +1,4 @@
+.byebug_history
+*.rb
+test_file.rb
+spec
