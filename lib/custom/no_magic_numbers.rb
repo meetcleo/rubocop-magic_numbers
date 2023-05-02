@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 module Custom
+  # Adds violations for magic numbers, aka assignments to variables with bare
+  # numbers (float or int)
+  #
+  # bad:
+  # hours = 24
+  #
+  # good:
+  # HOURS_IN_ONE_DAY = 24
   class NoMagicNumbers < ::RuboCop::Cop::Cop
     ILLEGAL_SCALAR_TYPES = %i[float int].freeze
     ASSIGNS_VIA_ATTR_WRITER_PATTERN = '(send ({send self} ... ) _ (${int float} _))'
