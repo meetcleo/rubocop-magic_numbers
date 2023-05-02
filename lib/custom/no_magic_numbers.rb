@@ -16,34 +16,38 @@ module Custom
     IVASGN_MSG = 'Do not use magic number instance variables'
     SEND_MSG = 'Do not use magic numbers to set properties'
 
-    def on_lvasgn(node)
-      return unless magic_number_lvar?(node)
+    def on_local_variable_assignment(node)
+      return unless magic_number_local_variable?(node)
 
       add_offense(node, location: :expression, message: LVASGN_MSG)
     end
+    alias on_lvasgn on_local_variable_assignment
 
-    def on_ivasgn(node)
-      return unless magic_number_ivar?(node)
+
+    def on_instance_variable_assignment(node)
+      return unless magic_number_instance_variable?(node)
 
       add_offense(node, location: :expression, message: IVASGN_MSG)
     end
+    alias on_ivasgn on_instance_variable_assignment
 
-    def on_send(node)
+    def on_message_send(node)
       return unless anonymous_setter_assign?(node)
 
       add_offense(node, location: :expression, message: SEND_MSG)
     end
+    alias on_send on_message_send
 
     private
 
-    def magic_number_lvar?(node)
+    def magic_number_local_variable?(node)
       return false unless node.lvasgn_type?
 
       value = node.children.last
       ILLEGAL_SCALAR_TYPES.include?(value.type)
     end
 
-    def magic_number_ivar?(node)
+    def magic_number_instance_variable?(node)
       return false unless node.ivasgn_type?
 
       value = node.children.last
