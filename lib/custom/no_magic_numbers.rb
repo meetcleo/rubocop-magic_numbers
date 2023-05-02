@@ -80,6 +80,9 @@ module Custom
     def magic_number_multiple_assign?(node)
       return false unless node.masgn_type?
 
+      # multiassignment nodes aren't AsgnNode typed, so we need to have a
+      # special approach to deconstruct them and assess if they contain magic
+      # numbers amongst their assignments
       illegal_multi_assign_right_hand_side?(node)
     end
 
@@ -109,10 +112,12 @@ module Custom
     end
 
     def illegal_scalar_value?(node)
-      value = node.children.reject { |c| c.is_a?(Symbol) }.last
-      return unless value
+      return false unless node.assignment?
 
-      ILLEGAL_SCALAR_TYPES.include?(value.type)
+      # multiassignment nodes contain individual assignments in their AST
+      # representations, but they aren't aware of their values, so we need to
+      # allow for expressionless assignments
+      ILLEGAL_SCALAR_TYPES.include?(node.expression&.type)
     end
 
     def method_name(node)
