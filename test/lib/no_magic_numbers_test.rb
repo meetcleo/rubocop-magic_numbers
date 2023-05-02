@@ -110,6 +110,26 @@ module Custom
       assert_no_offenses("Custom/NoMagicNumbers")
     end
 
+    def test_ignores_magic_integers_assigned_via_class_writers_on_another_object
+      inspect_source(<<~RUBY)
+        def test_method
+          Foo.klass_method = 1
+        end
+      RUBY
+
+      assert_no_offenses("Custom/NoMagicNumbers")
+    end
+
+    def test_ignores_magic_floats_assigned_via_class_writers_on_another_object
+      inspect_source(<<~RUBY)
+        def test_method
+          Foo.klass_method = 1
+        end
+      RUBY
+
+      assert_no_offenses("Custom/NoMagicNumbers")
+    end
+
     private
 
     def cop
