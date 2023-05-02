@@ -5,7 +5,7 @@ require 'byebug'
 require 'rubocop'
 
 module TestHelper
-  def assert_offense(cop_name = nil, violation_message = nil)
+  def assert_offense(cop_name: nil, violation_message: nil)
     matching_offenses = cop_name.nil? ? cop.offenses : cop.offenses.select { _1.cop_name == cop_name }
     message = ['Expected an offense', 'to be detected but there was none']
     message.insert(1, "named #{cop_name}") if cop_name
