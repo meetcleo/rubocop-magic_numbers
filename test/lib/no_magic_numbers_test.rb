@@ -86,6 +86,26 @@ module Custom
       assert_offense('Do not use magic numbers to set properties')
     end
 
+    def test_detects_magic_integers_assigned_to_global_variables
+      inspect_source(<<~RUBY)
+        def test_method
+          $GLOBAL_VARIABLE = 1
+        end
+      RUBY
+
+      assert_no_offenses("Custom/NoMagicNumbers")
+    end
+
+    def test_detects_magic_floats_assigned_to_global_variables
+      inspect_source(<<~RUBY)
+        def test_method
+          $GLOBAL_VARIABLE = 1.0
+        end
+      RUBY
+
+      assert_no_offenses("Custom/NoMagicNumbers")
+    end
+
     private
 
     def cop
