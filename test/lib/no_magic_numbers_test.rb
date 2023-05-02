@@ -153,13 +153,13 @@ module Custom
         end
       RUBY
 
-      assert_no_offenses('Custom/NoMagicNumbers')
+      assert_no_offenses(cop.name)
 
       inspect_source(<<~RUBY)
         $GLOBAL_VARIABLE = 1
       RUBY
 
-      assert_no_offenses('Custom/NoMagicNumbers')
+      assert_no_offenses(cop.name)
     end
 
     def test_detects_magic_floats_assigned_to_global_variables
@@ -167,7 +167,7 @@ module Custom
         $GLOBAL_VARIABLE = 1.0
       RUBY
 
-      assert_no_offenses('Custom/NoMagicNumbers')
+      assert_no_offenses(cop.name)
       refute_offense(cop.name)
     end
 
@@ -202,7 +202,7 @@ module Custom
     end
 
     def config
-      @config ||= RuboCop::Config.new('Custom/NoMagicNumbers' => { 'Enabled' => true })
+      @config ||= RuboCop::Config.new(cop.name => { 'Enabled' => true })
     end
   end
 end
