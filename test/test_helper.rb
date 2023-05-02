@@ -10,9 +10,11 @@ module TestHelper
     assert_equal(cop.offenses.first.message, violation_message) if cop.offenses.any?
   end
 
-  def refute_offense
-    assert_empty(cop.offenses)
+  def assert_no_offenses(cop_name = nil)
+    matching_offenses = cop_name.nil? ? cop.offenses : cop.offenses.select { _1.cop_name == cop_name }
+    assert_empty(matching_offenses, "Expected no offense to be detected but there was one")
   end
+  alias refute_offense assert_no_offenses
 
   private
 
