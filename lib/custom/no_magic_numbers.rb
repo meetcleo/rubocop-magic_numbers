@@ -11,10 +11,12 @@ module Custom
   # HOURS_IN_ONE_DAY = 24
   class NoMagicNumbers < ::RuboCop::Cop::Cop
     ILLEGAL_SCALAR_TYPES = %i[float int].freeze
-    MAGIC_NUMBER_ARGUMENT_PATTERN = '(send ({send self} ... ) _ (${int float} _))'
+    MAGIC_NUMBER_ARGUMENT_PATTERN = "(send ({send self} ... ) _ (${#{ILLEGAL_SCALAR_TYPES.join(' ')}} _))".freeze
     LVASGN_MSG = 'Do not use magic number local variables'
     IVASGN_MSG = 'Do not use magic number instance variables'
-    SEND_MSG = 'Do not use magic numbers to set properties'
+    PROPERTY_MSG = 'Do not use magic numbers to set properties'
+    UNARY_MSG = 'Do not use magic numbers in unary methods'
+    UNARY_LENGTH = 1
 
     def on_lvasgn(node)
       return unless magic_number_lvar?(node)
@@ -29,9 +31,13 @@ module Custom
     end
 
     def on_send(node)
-      return unless anonymous_setter_assign?(node)
+      return unless illegal_scalar_argument?(node)
 
-      add_offense(node, location: :expression, message: SEND_MSG)
+      if assignment?(node)
+        add_offense(node, location: :expression, message: PROPERTY_MSG)
+      elsif unary?(node)
+        add_offense(node, location: :expression, message: UNARY_MSG)
+      end
     end
 
     private
@@ -50,16 +56,23 @@ module Custom
       ILLEGAL_SCALAR_TYPES.include?(value.type)
     end
 
-    def anonymous_setter_assign?(node)
-      return false unless node.send_type?
-      return false unless RuboCop::AST::NodePattern.new(MAGIC_NUMBER_ARGUMENT_PATTERN).match(node)
-
-      _receiver_node, method_name, *_arg_nodes = *node
+    def assignment?(node)
       # Only match on method names that resemble assignments
-      return false unless method_name.end_with?('=')
+      method_name(node).end_with?('=')
+    end
 
-      value = node.children.last
-      ILLEGAL_SCALAR_TYPES.include?(value.type)
+    def unary?(node)
+      # Only match on method names that are unary invocations, so 1 character
+      # long
+      method_name(node).length == UNARY_LENGTH
+    end
+
+    def illegal_scalar_argument?(node)
+      RuboCop::AST::NodePattern.new(MAGIC_NUMBER_ARGUMENT_PATTERN).match(node)
+    end
+
+    def method_name(node)
+      node.to_a[1]
     end
   end
 end
