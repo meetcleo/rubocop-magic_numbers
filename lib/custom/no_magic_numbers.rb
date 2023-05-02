@@ -34,7 +34,7 @@ module Custom
     alias on_ivasgn on_instance_variable_assignment # rubocop API method name
 
     def on_message_send(node)
-      return unless magic_number_setter_assign?(node)
+      return unless magic_number_method_argument?(node)
 
       if assignment?(node)
         add_offense(node, location: :expression, message: PROPERTY_MSG)
@@ -60,7 +60,7 @@ module Custom
       ILLEGAL_SCALAR_TYPES.include?(value.type)
     end
 
-    def magic_number_setter_assign?(node)
+    def magic_number_method_argument?(node)
       return false unless node.send_type?
 
       RuboCop::AST::NodePattern.new(MAGIC_NUMBER_ARGUMENT_PATTERN).match(node)
