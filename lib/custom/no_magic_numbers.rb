@@ -21,7 +21,7 @@ module Custom
 
       add_offense(node, location: :expression, message: LOCAL_VARIABLE_ASSIGN_MSG)
     end
-    alias on_lvasgn on_local_variable_assignment
+    alias on_lvasgn on_local_variable_assignment # rubocop API method name
 
 
     def on_instance_variable_assignment(node)
@@ -29,14 +29,14 @@ module Custom
 
       add_offense(node, location: :expression, message: INSTANCE_VARIABLE_ASSIGN_MSG)
     end
-    alias on_ivasgn on_instance_variable_assignment
+    alias on_ivasgn on_instance_variable_assignment # rubocop API method name
 
     def on_message_send(node)
       return unless magic_number_setter_assign?(node)
 
       add_offense(node, location: :expression, message: SEND_METHOD_MSG)
     end
-    alias on_send on_message_send
+    alias on_send on_message_send # rubocop API method name
 
     private
 
