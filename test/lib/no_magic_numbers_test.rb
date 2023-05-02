@@ -94,13 +94,17 @@ module Custom
       RUBY
 
       assert_no_offenses("Custom/NoMagicNumbers")
+
+      inspect_source(<<~RUBY)
+        $GLOBAL_VARIABLE = 1
+      RUBY
+
+      assert_no_offenses("Custom/NoMagicNumbers")
     end
 
     def test_detects_magic_floats_assigned_to_global_variables
       inspect_source(<<~RUBY)
-        def test_method
-          $GLOBAL_VARIABLE = 1.0
-        end
+        $GLOBAL_VARIABLE = 1.0
       RUBY
 
       assert_no_offenses("Custom/NoMagicNumbers")
