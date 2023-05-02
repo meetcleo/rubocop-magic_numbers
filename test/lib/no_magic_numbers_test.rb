@@ -13,7 +13,7 @@ module Custom
         end
       RUBY
 
-      assert_offense('Do not use magic number instance variables')
+      assert_offense(described_class::IVASGN_MSG)
     end
 
     def test_detects_magic_floats_assigned_to_instance_variables
@@ -23,67 +23,127 @@ module Custom
         end
       RUBY
 
-      assert_offense('Do not use magic number instance variables')
+      assert_offense(described_class::IVASGN_MSG)
     end
 
     def test_detects_magic_integers_assigned_to_local_variables
       inspect_source(<<~RUBY)
         def test_method
-          instance_variable = 1
+          local_variable = 1
         end
       RUBY
 
-      assert_offense('Do not use magic number local variables')
+      assert_offense(described_class::LVASGN_MSG)
     end
 
     def test_detects_magic_floats_assigned_to_local_variables
       inspect_source(<<~RUBY)
         def test_method
-          instance_variable = 1.0
+          local_variable = 1.0
         end
       RUBY
 
-      assert_offense('Do not use magic number local variables')
+      assert_offense(described_class::LVASGN_MSG)
     end
 
     def test_detects_magic_integers_assigned_via_attr_writers_on_self
       inspect_source(<<~RUBY)
         def test_method
-          self.instance_variable = 1
+          self.test_attr_writer = 1
         end
       RUBY
 
-      assert_offense('Do not use magic numbers to set properties')
+      assert_offense(described_class::PROPERTY_MSG)
     end
 
     def test_detects_magic_floats_assigned_via_attr_writers_on_self
       inspect_source(<<~RUBY)
         def test_method
-          self.instance_variable = 1.0
+          self.test_attr_writer = 1.0
         end
       RUBY
 
-      assert_offense('Do not use magic numbers to set properties')
+      assert_offense(described_class::PROPERTY_MSG)
+    end
+
+    def test_detects_magic_integers_as_arguments_to_unary_methods
+      inspect_source(<<~RUBY)
+        def test_method
+          foo + 1
+        end
+      RUBY
+
+      assert_offense(described_class::UNARY_MSG)
+    end
+
+    def test_detects_magic_floats_as_arguments_to_unary_methods
+      inspect_source(<<~RUBY)
+        def test_method
+          foo + 1.0
+        end
+      RUBY
+
+      assert_offense(described_class::UNARY_MSG)
     end
 
     def test_detects_magic_integers_assigned_via_attr_writers_on_another_object
       inspect_source(<<~RUBY)
         def test_method
-          foo.instance_variable = 1
+          foo.test_attr_writer = 1
         end
       RUBY
 
-      assert_offense('Do not use magic numbers to set properties')
+      assert_offense(described_class::PROPERTY_MSG)
     end
 
     def test_detects_magic_floats_assigned_via_attr_writers_on_another_object
       inspect_source(<<~RUBY)
         def test_method
-          foo.instance_variable = 1.0
+          foo.test_attr_writer = 1.0
         end
       RUBY
 
-      assert_offense('Do not use magic numbers to set properties')
+      assert_offense(described_class::PROPERTY_MSG)
+    end
+
+    def test_ignores_magic_integers_as_arguments_to_methods_on_another_object
+      inspect_source(<<~RUBY)
+        def test_method
+          foo.inject(1)
+        end
+      RUBY
+
+      refute_offense
+    end
+
+    def test_ignores_magic_floats_as_arguments_to_methods_on_another_object
+      inspect_source(<<~RUBY)
+        def test_method
+          foo.inject(1.0)
+        end
+      RUBY
+
+      refute_offense
+    end
+
+    def test_ignores_magic_integers_as_arguments_to_methods_on_self
+      inspect_source(<<~RUBY)
+        def test_method
+          self.inject(1)
+        end
+      RUBY
+
+      refute_offense
+    end
+
+    def test_ignores_magic_floats_as_arguments_to_methods_on_self
+      inspect_source(<<~RUBY)
+        def test_method
+          self.inject(1.0)
+        end
+      RUBY
+
+      refute_offense
     end
 
     def test_detects_magic_integers_assigned_to_global_variables
@@ -132,8 +192,12 @@ module Custom
 
     private
 
+    def described_class
+      Custom::NoMagicNumbers
+    end
+
     def cop
-      @cop ||= Custom::NoMagicNumbers.new(config)
+      @cop ||= described_class.new(config)
     end
 
     def config
