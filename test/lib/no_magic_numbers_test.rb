@@ -202,7 +202,7 @@ module Custom
     end
 
     def config
-      @config ||= RuboCop::Config.new(cop.name => { 'Enabled' => true })
+      @config ||= RuboCop::Config.new('Custom/NoMagicNumbers' => { 'Enabled' => true })
     end
   end
 end
