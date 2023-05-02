@@ -20,7 +20,7 @@ module Custom
     PATTERN
     MAGIC_NUMBER_MULTI_ASSIGN_PATTERN = <<-PATTERN.freeze
       (masgn
-        (mlhs ({lvasgn ivasgn} _)+)
+        (mlhs ({lvasgn ivasgn send} ...)+)
         (array <(${#{ILLEGAL_SCALAR_TYPES.join(' ')}} _) ...>)
       )
     PATTERN

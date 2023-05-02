@@ -146,6 +146,44 @@ module Custom
       assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
     end
 
+    def test_detects_magic_integers_multiassigned_via_attr_writers_on_self
+      inspect_source(<<~RUBY)
+        def test_method
+          self.mutli_test_attr_writer, self.other_mutli_test_attr_writer = 1, 2
+        end
+      RUBY
+      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+    end
+
+    def test_detects_magic_floats_multiassigned_via_attr_writers_on_self
+      inspect_source(<<~RUBY)
+        def test_method
+          self.mutli_test_attr_writer, self.other_mutli_test_attr_writer = 1.0, 2.0
+        end
+      RUBY
+
+      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+    end
+
+    def test_detects_magic_integers_multiassigned_via_attr_writers_on_another_object
+      inspect_source(<<~RUBY)
+        def test_method
+          foo.mutli_test_attr_writer, foo.other_mutli_test_attr_writer = 1, 2
+        end
+      RUBY
+      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+    end
+
+    def test_detects_magic_floats_multiassigned_via_attr_writers_on_another_object
+      inspect_source(<<~RUBY)
+        def test_method
+          foo.mutli_test_attr_writer, foo.other_mutli_test_attr_writer = 1.0, 2.0
+        end
+      RUBY
+
+      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+    end
+
     def test_ignores_magic_integers_as_arguments_to_methods_on_another_object
       inspect_source(<<~RUBY)
         def test_method
