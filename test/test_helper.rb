@@ -10,6 +10,10 @@ module TestHelper
     assert_equal(cop.offenses.first.message, violation_message) if cop.offenses.any?
   end
 
+  def refute_offense
+    assert_empty(cop.offenses)
+  end
+
   private
 
   def parse_source(source, file = nil)
