@@ -32,7 +32,7 @@ module Custom
     alias on_ivasgn on_instance_variable_assignment
 
     def on_message_send(node)
-      return unless anonymous_setter_assign?(node)
+      return unless magic_number_setter_assign?(node)
 
       add_offense(node, location: :expression, message: SEND_MSG)
     end
@@ -54,7 +54,7 @@ module Custom
       ILLEGAL_SCALAR_TYPES.include?(value.type)
     end
 
-    def anonymous_setter_assign?(node)
+    def magic_number_setter_assign?(node)
       return false unless node.send_type?
       return false unless RuboCop::AST::NodePattern.new(ASSIGNS_VIA_ATTR_WRITER_PATTERN).match(node)
 
