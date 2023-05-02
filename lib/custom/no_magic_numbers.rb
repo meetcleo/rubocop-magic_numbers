@@ -12,14 +12,14 @@ module Custom
   class NoMagicNumbers < ::RuboCop::Cop::Cop
     ILLEGAL_SCALAR_TYPES = %i[float int].freeze
     ASSIGNS_VIA_ATTR_WRITER_PATTERN = '(send ({send self} ... ) _ (${int float} _))'
-    LVASGN_MSG = 'Do not use magic number local variables'
-    IVASGN_MSG = 'Do not use magic number instance variables'
-    SEND_MSG = 'Do not use magic numbers to set properties'
+    LOCAL_VARIABLE_ASSIGN_MSG = 'Do not use magic number local variables'
+    INSTANCE_VARIABLE_ASSIGN_MSG = 'Do not use magic number instance variables'
+    SEND_METHOD_MSG = 'Do not use magic numbers to set properties'
 
     def on_local_variable_assignment(node)
       return unless magic_number_local_variable?(node)
 
-      add_offense(node, location: :expression, message: LVASGN_MSG)
+      add_offense(node, location: :expression, message: LOCAL_VARIABLE_ASSIGN_MSG)
     end
     alias on_lvasgn on_local_variable_assignment
 
@@ -27,14 +27,14 @@ module Custom
     def on_instance_variable_assignment(node)
       return unless magic_number_instance_variable?(node)
 
-      add_offense(node, location: :expression, message: IVASGN_MSG)
+      add_offense(node, location: :expression, message: INSTANCE_VARIABLE_ASSIGN_MSG)
     end
     alias on_ivasgn on_instance_variable_assignment
 
     def on_message_send(node)
       return unless magic_number_setter_assign?(node)
 
-      add_offense(node, location: :expression, message: SEND_MSG)
+      add_offense(node, location: :expression, message: SEND_METHOD_MSG)
     end
     alias on_send on_message_send
 
