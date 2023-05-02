@@ -117,7 +117,7 @@ module Custom
         end
       RUBY
 
-      assert_no_offenses("Custom/NoMagicNumbers")
+      refute_offense
     end
 
     def test_ignores_magic_floats_assigned_via_class_writers_on_another_object
@@ -127,7 +127,7 @@ module Custom
         end
       RUBY
 
-      assert_no_offenses("Custom/NoMagicNumbers")
+      refute_offense
     end
 
     private
