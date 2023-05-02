@@ -11,9 +11,22 @@ module Custom
   # HOURS_IN_ONE_DAY = 24
   class NoMagicNumbers < ::RuboCop::Cop::Cop
     ILLEGAL_SCALAR_TYPES = %i[float int].freeze
-    MAGIC_NUMBER_ARGUMENT_PATTERN = "(send ({send self} ... ) _ (${#{ILLEGAL_SCALAR_TYPES.join(' ')}} _))".freeze
+    MAGIC_NUMBER_ARGUMENT_PATTERN = <<-PATTERN.freeze
+      (send
+        ({send self} ...)
+        _
+        (${#{ILLEGAL_SCALAR_TYPES.join(' ')}} _)
+      )
+    PATTERN
+    MAGIC_NUMBER_MULTI_ASSIGN_PATTERN = <<-PATTERN.freeze
+      (masgn
+        (mlhs ({lvasgn ivasgn} _)+)
+        (array <(${#{ILLEGAL_SCALAR_TYPES.join(' ')}} _) ...>)
+      )
+    PATTERN
     LOCAL_VARIABLE_ASSIGN_MSG = 'Do not use magic number local variables'
     INSTANCE_VARIABLE_ASSIGN_MSG = 'Do not use magic number instance variables'
+    MULTIPLE_ASSIGN_MSG = 'Do not use magic numbers in multiple assignments'
     PROPERTY_MSG = 'Do not use magic numbers to set properties'
     UNARY_MSG = 'Do not use magic numbers in unary methods'
     UNARY_LENGTH = 1
@@ -24,7 +37,6 @@ module Custom
       add_offense(node, location: :expression, message: LOCAL_VARIABLE_ASSIGN_MSG)
     end
     alias on_lvasgn on_local_variable_assignment # rubocop API method name
-
 
     def on_instance_variable_assignment(node)
       return unless magic_number_instance_variable?(node)
@@ -44,20 +56,31 @@ module Custom
     end
     alias on_send on_message_send # rubocop API method name
 
+    def on_multiple_assign(node)
+      return false unless magic_number_multiple_assign?(node)
+
+      add_offense(node, location: :expression, message: MULTIPLE_ASSIGN_MSG)
+    end
+    alias on_masgn on_multiple_assign
+
     private
 
     def magic_number_local_variable?(node)
       return false unless node.lvasgn_type?
 
-      value = node.children.last
-      ILLEGAL_SCALAR_TYPES.include?(value.type)
+      illegal_scalar_value?(node)
     end
 
     def magic_number_instance_variable?(node)
       return false unless node.ivasgn_type?
 
-      value = node.children.last
-      ILLEGAL_SCALAR_TYPES.include?(value.type)
+      illegal_scalar_value?(node)
+    end
+
+    def magic_number_multiple_assign?(node)
+      return false unless node.masgn_type?
+
+      illegal_multi_assign_right_hand_side?(node)
     end
 
     def magic_number_method_argument?(node)
@@ -79,6 +102,17 @@ module Custom
 
     def illegal_scalar_argument?(node)
       RuboCop::AST::NodePattern.new(MAGIC_NUMBER_ARGUMENT_PATTERN).match(node)
+    end
+
+    def illegal_multi_assign_right_hand_side?(node)
+      RuboCop::AST::NodePattern.new(MAGIC_NUMBER_MULTI_ASSIGN_PATTERN).match(node)
+    end
+
+    def illegal_scalar_value?(node)
+      value = node.children.reject { |c| c.is_a?(Symbol) }.last
+      return unless value
+
+      ILLEGAL_SCALAR_TYPES.include?(value.type)
     end
 
     def method_name(node)

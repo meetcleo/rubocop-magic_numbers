@@ -106,6 +106,46 @@ module Custom
       assert_offense(described_class::PROPERTY_MSG)
     end
 
+    def test_detects_magic_integers_multiassigned_to_instance_variables
+      inspect_source(<<~RUBY)
+        def test_method
+          @instance_variable, @other_instance_variable = 1, 2
+        end
+      RUBY
+
+      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+    end
+
+    def test_detects_magic_floats_multiassigned_to_instance_variables
+      inspect_source(<<~RUBY)
+        def test_method
+          @instance_variable, @other_instance_variable = 1.0, 2.0
+        end
+      RUBY
+
+      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+    end
+
+    def test_detects_magic_integers_multiassigned_to_local_variables
+      inspect_source(<<~RUBY)
+        def test_method
+          local_variable, other_local_variable = 1, 2
+        end
+      RUBY
+
+      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+    end
+
+    def test_detects_magic_floats_multiassigned_to_local_variables
+      inspect_source(<<~RUBY)
+        def test_method
+          local_variable, other_local_variable = 1.0, 2.0
+        end
+      RUBY
+
+      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+    end
+
     def test_ignores_magic_integers_as_arguments_to_methods_on_another_object
       inspect_source(<<~RUBY)
         def test_method
