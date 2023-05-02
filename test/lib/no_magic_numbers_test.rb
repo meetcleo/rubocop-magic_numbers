@@ -168,7 +168,6 @@ module Custom
       RUBY
 
       assert_no_offenses(cop.name)
-      refute_offense(cop.name)
     end
 
     def test_ignores_magic_integers_assigned_via_class_writers_on_another_object
