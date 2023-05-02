@@ -146,6 +146,31 @@ module Custom
       refute_offense(cop.name)
     end
 
+    def test_detects_magic_integers_assigned_to_global_variables
+      inspect_source(<<~RUBY)
+        def test_method
+          $GLOBAL_VARIABLE = 1
+        end
+      RUBY
+
+      assert_no_offenses('Custom/NoMagicNumbers')
+
+      inspect_source(<<~RUBY)
+        $GLOBAL_VARIABLE = 1
+      RUBY
+
+      assert_no_offenses('Custom/NoMagicNumbers')
+    end
+
+    def test_detects_magic_floats_assigned_to_global_variables
+      inspect_source(<<~RUBY)
+        $GLOBAL_VARIABLE = 1.0
+      RUBY
+
+      assert_no_offenses('Custom/NoMagicNumbers')
+      refute_offense(cop.name)
+    end
+
     def test_ignores_magic_integers_assigned_via_class_writers_on_another_object
       inspect_source(<<~RUBY)
         def test_method
