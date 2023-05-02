@@ -32,21 +32,21 @@ module Custom
     UNARY_LENGTH = 1
 
     def on_local_variable_assignment(node)
-      return unless magic_number_local_variable?(node)
+      return unless illegal_scalar_value?(node)
 
       add_offense(node, location: :expression, message: LOCAL_VARIABLE_ASSIGN_MSG)
     end
     alias on_lvasgn on_local_variable_assignment # rubocop API method name
 
     def on_instance_variable_assignment(node)
-      return unless magic_number_instance_variable?(node)
+      return unless illegal_scalar_value?(node)
 
       add_offense(node, location: :expression, message: INSTANCE_VARIABLE_ASSIGN_MSG)
     end
     alias on_ivasgn on_instance_variable_assignment # rubocop API method name
 
     def on_message_send(node)
-      return unless magic_number_method_argument?(node)
+      return unless illegal_scalar_argument?(node)
 
       if assignment?(node)
         add_offense(node, location: :expression, message: PROPERTY_MSG)
@@ -57,40 +57,16 @@ module Custom
     alias on_send on_message_send # rubocop API method name
 
     def on_multiple_assign(node)
-      return false unless magic_number_multiple_assign?(node)
+      # multiassignment nodes aren't AsgnNode typed, so we need to have a
+      # special approach to deconstruct them and assess if they contain magic
+      # numbers amongst their assignments
+      return false unless illegal_multi_assign_right_hand_side?(node)
 
       add_offense(node, location: :expression, message: MULTIPLE_ASSIGN_MSG)
     end
     alias on_masgn on_multiple_assign
 
     private
-
-    def magic_number_local_variable?(node)
-      return false unless node.lvasgn_type?
-
-      illegal_scalar_value?(node)
-    end
-
-    def magic_number_instance_variable?(node)
-      return false unless node.ivasgn_type?
-
-      illegal_scalar_value?(node)
-    end
-
-    def magic_number_multiple_assign?(node)
-      return false unless node.masgn_type?
-
-      # multiassignment nodes aren't AsgnNode typed, so we need to have a
-      # special approach to deconstruct them and assess if they contain magic
-      # numbers amongst their assignments
-      illegal_multi_assign_right_hand_side?(node)
-    end
-
-    def magic_number_method_argument?(node)
-      return false unless node.send_type?
-
-      RuboCop::AST::NodePattern.new(MAGIC_NUMBER_ARGUMENT_PATTERN).match(node)
-    end
 
     def assignment?(node)
       # Only match on method names that resemble assignments
