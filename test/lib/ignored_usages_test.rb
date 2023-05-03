@@ -35,7 +35,7 @@ module Custom
       end
     end
 
-    def test_ignores_magic_numbers_assigned_to_global_variables
+    def test_ignores_magic_numbers_assigned_to_global_variables_in_methods
       @matched_numerics.each do |num|
         inspect_source(<<~RUBY)
           def test_method
