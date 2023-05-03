@@ -19,7 +19,7 @@ module Custom
           end
         RUBY
 
-        refute_offense(cop.name)
+        refute_offense(cop_name: cop.name)
       end
     end
 
@@ -31,7 +31,7 @@ module Custom
           end
         RUBY
 
-        refute_offense(cop.name)
+        refute_offense(cop_name: cop.name)
       end
     end
 
@@ -43,13 +43,17 @@ module Custom
           end
         RUBY
 
-        refute_offense(cop.name)
+        refute_offense(cop_name: cop.name)
+      end
+    end
 
+    def test_ignores_magic_numbers_assigned_to_global_variables_outside_methods
+      @matched_numerics.each do |num|
         inspect_source(<<~RUBY)
           $GLOBAL_VARIABLE = #{num}
         RUBY
 
-        refute_offense(cop.name)
+        refute_offense(cop_name: cop.name)
       end
     end
 
@@ -61,7 +65,7 @@ module Custom
           end
         RUBY
 
-        refute_offense(cop.name)
+        refute_offense(cop_name: cop.name)
       end
     end
 

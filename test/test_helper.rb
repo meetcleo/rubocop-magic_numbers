@@ -6,23 +6,40 @@ require 'rubocop'
 
 module TestHelper
   def assert_offense(cop_name: nil, violation_message: nil)
-    matching_offenses = cop_name.nil? ? cop.offenses : cop.offenses.select { _1.cop_name == cop_name }
-    message = ['Expected an offense', 'to be detected but there was none']
-    message.insert(1, "named #{cop_name}") if cop_name
-    message_string = message.join(' ')
+    message_string = [
+      'Expected an offense',
+      cop_name_for_offense(cop_name:),
+      'to be detected but there was none',
+    ].compact.join(' ')
 
-    refute_empty(matching_offenses, message_string)
+    refute_empty(matching_offenses(cop_name:), message_string)
     assert_equal(cop.offenses.first.message, violation_message) if cop.offenses.any?
   end
 
-  def assert_no_offenses(cop_name = nil)
-    matching_offenses = cop_name.nil? ? cop.offenses : cop.offenses.select { _1.cop_name == cop_name }
+  def assert_no_offenses(cop_name: nil)
+    message_string = [
+      'Expected no offenses',
+      cop_name_for_offense(cop_name:),
+      'to be detected but offenses were found',
+    ].compact.join(' ')
 
-    assert_empty(matching_offenses, 'Expected no offense to be detected but there was one')
+    assert_empty(matching_offenses(cop_name:), message_string)
   end
   alias refute_offense assert_no_offenses
 
   private
+
+  def matching_offenses(cop_name:)
+    return cop.offenses unless cop_name
+
+    cop.offenses.select { _1.cop_name == cop_name }
+  end
+
+  def cop_name_for_offense(cop_name:)
+    return ' ' unless cop_name
+
+    " for cop named #{cop_name} "
+  end
 
   def parse_source(source, file = nil)
     if file.respond_to?(:write)
