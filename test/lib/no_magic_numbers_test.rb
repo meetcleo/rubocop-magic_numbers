@@ -13,7 +13,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(cop.name, described_class::INSTANCE_VARIABLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::INSTANCE_VARIABLE_ASSIGN_MSG
+      )
     end
 
     def test_detects_magic_floats_assigned_to_instance_variables
@@ -23,7 +26,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(cop.name, described_class::INSTANCE_VARIABLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::INSTANCE_VARIABLE_ASSIGN_MSG
+      )
     end
 
     def test_detects_magic_integers_assigned_to_local_variables
@@ -33,7 +39,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(cop.name, described_class::LOCAL_VARIABLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::LOCAL_VARIABLE_ASSIGN_MSG
+      )
     end
 
     def test_detects_magic_floats_assigned_to_local_variables
@@ -43,7 +52,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(cop.name, described_class::LOCAL_VARIABLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::LOCAL_VARIABLE_ASSIGN_MSG
+      )
     end
 
     def test_detects_magic_integers_assigned_via_attr_writers_on_self
@@ -53,7 +65,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(cop.name, described_class::PROPERTY_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::PROPERTY_MSG
+      )
     end
 
     def test_detects_magic_floats_assigned_via_attr_writers_on_self
@@ -63,7 +78,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(cop.name, described_class::PROPERTY_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::PROPERTY_MSG
+      )
     end
 
     def test_detects_magic_integers_as_arguments_to_unary_methods
@@ -73,7 +91,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(cop.name, described_class::UNARY_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::UNARY_MSG
+      )
     end
 
     def test_detects_magic_floats_as_arguments_to_unary_methods
@@ -83,7 +104,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(cop.name, described_class::UNARY_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::UNARY_MSG
+      )
     end
 
     def test_detects_magic_integers_assigned_via_attr_writers_on_another_object
@@ -93,7 +117,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(cop.name, described_class::PROPERTY_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::PROPERTY_MSG
+      )
     end
 
     def test_detects_magic_floats_assigned_via_attr_writers_on_another_object
@@ -103,7 +130,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(cop.name, described_class::PROPERTY_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::PROPERTY_MSG
+      )
     end
 
     def test_detects_magic_integers_multiassigned_to_instance_variables
@@ -113,7 +143,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::MULTIPLE_ASSIGN_MSG
+      )
     end
 
     def test_detects_magic_floats_multiassigned_to_instance_variables
@@ -123,7 +156,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::MULTIPLE_ASSIGN_MSG
+      )
     end
 
     def test_detects_magic_integers_multiassigned_to_local_variables
@@ -133,7 +169,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::MULTIPLE_ASSIGN_MSG
+      )
     end
 
     def test_detects_magic_floats_multiassigned_to_local_variables
@@ -143,7 +182,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::MULTIPLE_ASSIGN_MSG
+      )
     end
 
     def test_detects_magic_integers_multiassigned_via_attr_writers_on_self
@@ -152,7 +194,10 @@ module Custom
           self.mutli_test_attr_writer, self.other_mutli_test_attr_writer = 1, 2
         end
       RUBY
-      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::MULTIPLE_ASSIGN_MSG
+      )
     end
 
     def test_detects_magic_floats_multiassigned_via_attr_writers_on_self
@@ -162,7 +207,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::MULTIPLE_ASSIGN_MSG
+      )
     end
 
     def test_detects_magic_integers_multiassigned_via_attr_writers_on_another_object
@@ -171,7 +219,10 @@ module Custom
           foo.mutli_test_attr_writer, foo.other_mutli_test_attr_writer = 1, 2
         end
       RUBY
-      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::MULTIPLE_ASSIGN_MSG
+      )
     end
 
     def test_detects_magic_floats_multiassigned_via_attr_writers_on_another_object
@@ -181,7 +232,10 @@ module Custom
         end
       RUBY
 
-      assert_offense(described_class::MULTIPLE_ASSIGN_MSG)
+      assert_offense(
+        cop_name: cop.name,
+        violation_message: described_class::MULTIPLE_ASSIGN_MSG
+      )
     end
 
     def test_ignores_magic_integers_as_arguments_to_methods_on_another_object
