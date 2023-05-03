@@ -5,13 +5,11 @@ require 'rubocop'
 
 module TestHelper
   def assert_offense(cop_name: nil, violation_message: nil)
-    matching_offenses = cop_name.nil? ? cop.offenses : cop.offenses.select { _1.cop_name == cop_name }
-    message = ['Expected an offense', 'to be detected but there was none']
-    message.insert(1, "named #{cop_name}") if cop_name
-    message_string = message.join(' ')
+    matching_offenses = matching_offenses_for_cop_name(cop_name)
+    detected_message = detected_message_for_cop_name(cop_name)
 
-    refute_empty(matching_offenses, message_string)
-    assert_equal(cop.offenses.first.message, violation_message) if cop.offenses.any?
+    refute_empty(matching_offenses, detected_message)
+    assert_equal(matching_offenses.first.message, violation_message) if matching_offenses.any?
   end
 
   def assert_no_offenses(cop_name = nil)
@@ -85,6 +83,17 @@ module TestHelper
 
   def config
     @config ||= RuboCop::Config.new
+  end
+
+  def matching_offenses_for_cop_name(cop_name)
+    cop.offenses.dup
+    matching_offenses.keep_if { _1.cop_name == cop_name }
+  end
+
+  def violation_message_for_cop_name(cop_name)
+    message = ['Expected an offense', 'to be detected but there was none']
+    message.insert(1, "named #{cop_name}") if cop_name
+    message.join(' ')
   end
 end
 

@@ -2,14 +2,15 @@
 
 source 'https://rubygems.org'
 
-gem 'parser'
-gem 'rubocop'
-gem 'rubocop-rails'
+git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
-group :development, :test do
-  gem 'byebug'
-  gem 'minitest'
-  gem 'rake'
-  gem 'rubocop-minitest'
-  gem 'rubocop-rake'
-end
+# Specify your gem's dependencies in rubocop-require_tools.gemspec
+gemspec
+
+# Development dependencies
+gem 'byebug'
+gem 'minitest'
+gem 'rake'
+gem 'rubocop-minitest'
+gem 'rubocop-rake'
+gem 'rubocop-require_tools'

@@ -5,7 +5,15 @@ AllCops:
 require:
   - rubocop-rake
   - rubocop-minitest
-  - ./lib/custom/no_magic_numbers.rb
+  - ./lib/rubocop/cop/magic_numbers/no_magic_numbers.rb
 
-Custom/NoMagicNumbers:
+MagicNumbers/NoMagicNumbers:
   Enabled: true
+
+Metrics/BlockLength:
+  Exclude:
+    - test/**/*_test.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - test/**/*_test.rb

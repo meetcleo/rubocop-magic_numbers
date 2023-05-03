@@ -195,6 +195,7 @@ module Rubocop
               self.mutli_test_attr_writer, self.other_mutli_test_attr_writer = 1, 2
             end
           RUBY
+
           assert_offense(
             cop_name: cop.name,
             violation_message: described_class::MULTIPLE_ASSIGN_MSG
@@ -220,6 +221,7 @@ module Rubocop
               foo.mutli_test_attr_writer, foo.other_mutli_test_attr_writer = 1, 2
             end
           RUBY
+
           assert_offense(
             cop_name: cop.name,
             violation_message: described_class::MULTIPLE_ASSIGN_MSG
@@ -340,4 +342,3 @@ module Rubocop
     end
   end
 end
-
