@@ -16,7 +16,7 @@ module Custom
         ['1', 1],
         [1, '1'],
         ['1.0', 1.0],
-        [1.0, '1.0'],
+        [1.0, '1.0']
       ]
     end
 
@@ -73,7 +73,7 @@ module Custom
     def assert_multiple_assignment_test
       assert_offense(
         cop_name: cop.name,
-        violation_message: described_class::MULTIPLE_ASSIGN_MSG,
+        violation_message: described_class::MULTIPLE_ASSIGN_MSG
       )
     end
 

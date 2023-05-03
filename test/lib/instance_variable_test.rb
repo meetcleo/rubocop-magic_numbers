@@ -28,7 +28,7 @@ module Custom
     def assert_instance_variable_offense
       assert_offense(
         cop_name: cop.name,
-        violation_message: described_class::INSTANCE_VARIABLE_ASSIGN_MSG,
+        violation_message: described_class::INSTANCE_VARIABLE_ASSIGN_MSG
       )
     end
 

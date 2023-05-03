@@ -40,7 +40,7 @@ module Custom
     def assert_property_assignment_offense
       assert_offense(
         cop_name: cop.name,
-        violation_message: described_class::PROPERTY_MSG,
+        violation_message: described_class::PROPERTY_MSG
       )
     end
 

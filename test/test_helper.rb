@@ -9,7 +9,7 @@ module TestHelper
     message_string = [
       'Expected an offense',
       cop_name_for_offense(cop_name:),
-      'to be detected but there was none',
+      'to be detected but there was none'
     ].compact.join(' ')
 
     refute_empty(matching_offenses(cop_name:), message_string)
@@ -20,7 +20,7 @@ module TestHelper
     message_string = [
       'Expected no offenses',
       cop_name_for_offense(cop_name:),
-      'to be detected but offenses were found',
+      'to be detected but offenses were found'
     ].compact.join(' ')
 
     assert_empty(matching_offenses(cop_name:), message_string)

@@ -28,7 +28,7 @@ module Custom
     def assert_unary_offense
       assert_offense(
         cop_name: cop.name,
-        violation_message: described_class::UNARY_MSG,
+        violation_message: described_class::UNARY_MSG
       )
     end
 
