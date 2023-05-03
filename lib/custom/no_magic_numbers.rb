@@ -10,20 +10,28 @@ module Custom
   # good:
   # HOURS_IN_ONE_DAY = 24
   class NoMagicNumbers < ::RuboCop::Cop::Cop
-    ILLEGAL_SCALAR_TYPES = %i[float int].freeze
-    MAGIC_NUMBER_ARGUMENT_PATTERN = <<-PATTERN.freeze
-      (send
-        ({send self} ...)
-        _
-        (${#{ILLEGAL_SCALAR_TYPES.join(' ')}} _)
-      )
-    PATTERN
-    MAGIC_NUMBER_MULTI_ASSIGN_PATTERN = <<-PATTERN.freeze
-      (masgn
-        (mlhs ({lvasgn ivasgn send} ...)+)
-        (array <(${#{ILLEGAL_SCALAR_TYPES.join(' ')}} _) ...>)
-      )
-    PATTERN
+    ILLEGAL_SCALAR_TYPES = {
+      'All' => %i[float int],
+      'Integer' => %i[int],
+      'Float' => %i[float],
+    }.freeze
+    MAGIC_NUMBER_ARGUMENT_PATTERN = ->(illegal_scalar_types_ast:) {
+      <<-PATTERN
+        (send
+          ({send self} ...)
+          _
+          ($#{illegal_scalar_types_ast} _)
+        )
+      PATTERN
+    }
+    MAGIC_NUMBER_MULTI_ASSIGN_PATTERN = ->(illegal_scalar_types_ast:) {
+      <<-PATTERN
+        (masgn
+          (mlhs ({lvasgn ivasgn send} ...)+)
+          (array <($#{illegal_scalar_types_ast} _) ...>)
+        )
+      PATTERN
+    }
     LOCAL_VARIABLE_ASSIGN_MSG = 'Do not use magic number local variables'
     INSTANCE_VARIABLE_ASSIGN_MSG = 'Do not use magic number instance variables'
     MULTIPLE_ASSIGN_MSG = 'Do not use magic numbers in multiple assignments'
@@ -68,6 +76,22 @@ module Custom
 
     private
 
+    def illegal_scalar_types
+      ILLEGAL_SCALAR_TYPES[cop_config['ForbiddenNumerics'] || 'All']
+    end
+
+    def illegal_scalar_types_ast
+      "{#{illegal_scalar_types.join(' ')}}"
+    end
+
+    def magic_number_argument_pattern
+      MAGIC_NUMBER_ARGUMENT_PATTERN.call(illegal_scalar_types_ast:)
+    end
+
+    def magic_number_multi_assign_pattern
+      MAGIC_NUMBER_MULTI_ASSIGN_PATTERN.call(illegal_scalar_types_ast:)
+    end
+
     def assignment?(node)
       # Only match on method names that resemble assignments
       method_name(node).end_with?('=')
@@ -80,11 +104,11 @@ module Custom
     end
 
     def illegal_scalar_argument?(node)
-      RuboCop::AST::NodePattern.new(MAGIC_NUMBER_ARGUMENT_PATTERN).match(node)
+      RuboCop::AST::NodePattern.new(magic_number_argument_pattern).match(node)
     end
 
     def illegal_multi_assign_right_hand_side?(node)
-      RuboCop::AST::NodePattern.new(MAGIC_NUMBER_MULTI_ASSIGN_PATTERN).match(node)
+      RuboCop::AST::NodePattern.new(magic_number_multi_assign_pattern).match(node)
     end
 
     def illegal_scalar_value?(node)
@@ -93,7 +117,7 @@ module Custom
       # multiassignment nodes contain individual assignments in their AST
       # representations, but they aren't aware of their values, so we need to
       # allow for expressionless assignments
-      ILLEGAL_SCALAR_TYPES.include?(node.expression&.type)
+      illegal_scalar_types.include?(node.expression&.type)
     end
 
     def method_name(node)
