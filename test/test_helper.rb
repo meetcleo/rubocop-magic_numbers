@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require 'minitest'
-require 'byebug'
+require 'minitest/autorun'
 require 'rubocop'
 
 module TestHelper
