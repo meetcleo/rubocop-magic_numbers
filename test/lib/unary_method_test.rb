@@ -19,13 +19,13 @@ module Custom
           end
         RUBY
 
-        assert_unary_offence
+        assert_unary_offense
       end
     end
 
     private
 
-    def assert_unary_offence
+    def assert_unary_offense
       assert_offense(
         cop_name: cop.name,
         violation_message: described_class::UNARY_MSG,
