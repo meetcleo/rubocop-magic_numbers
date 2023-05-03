@@ -36,9 +36,9 @@ module TestHelper
   end
 
   def cop_name_for_offense(cop_name:)
-    return ' ' unless cop_name
+    return unless cop_name
 
-    " for cop named #{cop_name} "
+    "for cop named #{cop_name}"
   end
 
   def parse_source(source, file = nil)
