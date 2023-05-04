@@ -18,7 +18,9 @@ module TestHelper
   end
 
   def assert_no_offenses(cop_name = nil)
-    matching_offenses = cop_name.nil? ? cop.offenses : cop.offenses.select { _1.cop_name == cop_name }
+    raise NotImplementedError, "Please call `inspect_source' before making assertions" unless @offenses
+
+    matching_offenses = cop_name.nil? ? @offenses : @offenses.select { _1.cop_name == cop_name }
 
     assert_empty(matching_offenses, 'Expected no offense to be detected but there was one')
   end
@@ -67,7 +69,7 @@ module TestHelper
     end
   end
 
-  def inspect_source(source, file = nil)
+  def inspect_source(source, file: nil, cops: [cop])
     RuboCop::Formatter::DisabledConfigFormatter.config_to_allow_offenses = {}
     RuboCop::Formatter::DisabledConfigFormatter.detected_styles = {}
     processed_source = parse_source(source, file)
@@ -76,14 +78,14 @@ module TestHelper
             "#{processed_source.diagnostics.map(&:render).join("\n")}"
     end
 
-    _investigate(cop, processed_source)
+    _investigate(cops, processed_source)
   end
 
-  def _investigate(cop, processed_source)
-    team = RuboCop::Cop::Team.new([cop], configuration, raise_error: true)
+  def _investigate(cops, processed_source)
+    team = RuboCop::Cop::Team.new(cops, configuration, raise_error: true)
     report = team.investigate(processed_source)
     @last_corrector = report.correctors.first || RuboCop::Cop::Corrector.new(processed_source)
-    report.offenses.reject(&:disabled?)
+    @offenses = report.offenses.reject(&:disabled?)
   end
 
   def ruby_version
@@ -99,7 +101,9 @@ module TestHelper
   end
 
   def matching_offenses_for_cop_name(cop_name)
-    cop.offenses.select { _1.cop_name == cop_name }
+    raise NotImplementedError, "Please call `inspect_source' before making assertions" unless @offenses
+
+    @offenses.select { _1.cop_name == cop_name }
   end
 
   def detected_message_for_cop_name(cop_name)
