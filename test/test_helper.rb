@@ -93,10 +93,6 @@ module TestHelper
     @config ||= RuboCop::Config.new(hash)
   end
 
-  def modify_config(hash = {})
-    self.config = RuboCop::Config.new(Hash(config).deep_merge(hash))
-  end
-
   def matching_offenses_for_cop_name(cop_name)
     cop.offenses.select { _1.cop_name == cop_name }
   end
