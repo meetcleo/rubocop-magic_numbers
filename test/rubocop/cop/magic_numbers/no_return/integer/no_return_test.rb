@@ -55,6 +55,25 @@ module RuboCop
             end
           end
 
+          def test_when_a_method_implicitly_returns_an_integer_after_other_things
+            skip('Currently not working')
+
+            matched_numerics(:integer).each do |num|
+              inspect_source(<<~RUBY)
+                def test_method
+                  do_some_things
+
+                  #{num}
+                end
+              RUBY
+
+              assert_offense(
+                cop_name:,
+                violation_message: described_class::NO_EXPLICIT_RETURN_MSG
+              )
+            end
+          end
+
           private
 
           def described_class
