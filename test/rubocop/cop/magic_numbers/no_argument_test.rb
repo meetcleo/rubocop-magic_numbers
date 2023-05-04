@@ -1,5 +1,5 @@
 require "test_helper"
-require "rubocop/cop/magic_numbers/no_magic_argument"
+require "rubocop/cop/magic_numbers/no_argument"
 
 module RuboCop
   module Cop
