@@ -9,22 +9,12 @@ module RuboCop
     module MagicNumbers
       class NoAssignment
         class GlobalVariableTest < Minitest::Test
-          def setup
-            # We detect floats or ints, so this is used in tests to check for both
-            @matched_numerics = TestHelper::FLOAT_LITERALS + TestHelper::INTEGER_LITERALS
+          def test_config_defaults_to_allow_global_variables
+            allowed_assignments = described_class.new(config).cop_config['AllowedAssignments']
+
+            assert_include(allowed_assignments, 'global_variables')
           end
 
-          def test_ignores_magic_numbers_assigned_to_global_variables
-            @matched_numerics.each do |num|
-              inspect_source(<<~RUBY)
-                def test_method
-                  $GLOBAL_VARIABLE = #{num}
-                end
-              RUBY
-
-              assert_no_offenses
-            end
-          end
 
           private
 

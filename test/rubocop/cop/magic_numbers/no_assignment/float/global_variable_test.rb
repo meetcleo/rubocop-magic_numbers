@@ -10,12 +10,8 @@ module RuboCop
       class NoAssignment
         module Float
           class GlobalVariableTest < Minitest::Test
-            def setup
-              @matched_numerics = TestHelper::FLOAT_LITERALS
-            end
-
-            def test_ignores_magic_numbers_assigned_to_global_variables
-              @matched_numerics.each do |num|
+            def test_ignores_magic_numbers_assigned_to_global_variables_when_config_false
+              matched_numerics(:float).each do |num|
                 inspect_source(<<~RUBY)
                   def test_method
                     $GLOBAL_VARIABLE = #{num}
