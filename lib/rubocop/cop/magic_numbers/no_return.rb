@@ -20,7 +20,7 @@ module RuboCop
         end
 
         def on_return(node)
-          return unless forbidden_numerics.include?(node.children.first.type)
+          return unless forbidden_numerics.include?(node.children.first&.type)
 
           add_offense(node, location: :expression, message: NO_EXPLICIT_RETURN_MSG)
         end
