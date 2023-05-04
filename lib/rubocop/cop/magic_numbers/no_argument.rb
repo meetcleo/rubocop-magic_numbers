@@ -33,8 +33,26 @@ module RuboCop
           PATTERN
         }
 
+        MAGIC_NUMBER_ARGUMENT_PATTERN = lambda { |illegal_scalar_types_ast:|
+          <<-PATTERN.freeze
+            (send
+              {
+                _
+                _
+                (#{illegal_scalar_types_ast} _)
+                | # This is a union of lhs and rhs literal
+                (#{illegal_scalar_types_ast} _)
+                _
+                _
+              }
+            )
+          PATTERN
+        }
+
         DEFAULT_OPTIONAL_ARGUMENT_MSG = 'Do not use magic number optional ' \
                                         'argument defaults'
+
+        ARGUMENT_MSG = 'Do not use magic number arguments to methods'
 
         def on_method_defined(node)
           return unless illegal_positional_default?(node)
@@ -47,6 +65,13 @@ module RuboCop
         end
         alias on_def on_method_defined # rubocop API method name
 
+        def on_message_send(node)
+          return unless illegal_argument?(node)
+
+          add_offense(node, location: :expression, message: ARGUMENT_MSG)
+        end
+        alias on_send on_message_send # rubocop API method name
+
         private
 
         def node_matches_pattern?(node:, pattern:)
@@ -58,8 +83,15 @@ module RuboCop
         end
 
         def illegal_positional_default?(node)
-          # byebug
           node_matches_pattern?(node:, pattern: magic_number_optional_argument_pattern)
+        end
+
+        def magic_number_argument_pattern
+          MAGIC_NUMBER_ARGUMENT_PATTERN.call(illegal_scalar_types_ast:)
+        end
+
+        def illegal_argument?(node)
+          node_matches_pattern?(node:, pattern: magic_number_argument_pattern)
         end
 
         def illegal_scalar_types
