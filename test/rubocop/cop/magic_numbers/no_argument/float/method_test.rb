@@ -11,7 +11,7 @@ module RuboCop
         module Float
           class MethodTest < Minitest::Test
             def test_detects_magic_numbers_used_as_arguments_to_methods
-              matched_numerics.each do |num|
+              matched_numerics(:float).each do |num|
                 inspect_source(<<~RUBY)
                   foo(#{num})
                 RUBY
@@ -21,7 +21,7 @@ module RuboCop
             end
 
             def test_detects_magic_numbers_used_as_implicit_arguments_to_methods
-              matched_numerics.each do |num|
+              matched_numerics(:float).each do |num|
                 inspect_source(<<~RUBY)
                   foo #{num}
                 RUBY
@@ -31,7 +31,7 @@ module RuboCop
             end
 
             def test_detects_magic_numbers_used_on_left_of_operators
-              matched_numerics.each do |num|
+              matched_numerics(:float).each do |num|
                 inspect_source(<<~RUBY)
                   #{num} + foo
                 RUBY
@@ -41,7 +41,7 @@ module RuboCop
             end
 
             def test_detects_magic_numbers_used_on_right_of_operators
-              matched_numerics.each do |num|
+              matched_numerics(:float).each do |num|
                 inspect_source(<<~RUBY)
                   foo + #{num}
                 RUBY
@@ -57,10 +57,6 @@ module RuboCop
                 cop_name: cop.name,
                 violation_message: described_class::ARGUMENT_MSG
               )
-            end
-
-            def matched_numerics
-              TestHelper::FLOAT_LITERALS
             end
 
             def described_class

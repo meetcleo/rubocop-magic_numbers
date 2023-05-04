@@ -11,7 +11,7 @@ module RuboCop
         module Float
           class DefaultTest < Minitest::Test
             def test_detects_magic_numbers_used_as_positional_defaults
-              matched_numerics.each do |num|
+              matched_numerics(:float).each do |num|
                 inspect_source(<<~RUBY)
                   def test_method(foo, arg = #{num})
                     use_the(arg)
@@ -23,7 +23,7 @@ module RuboCop
             end
 
             def test_detects_magic_numbers_used_as_keyword_defaults
-              matched_numerics.each do |num|
+              matched_numerics(:float).each do |num|
                 inspect_source(<<~RUBY)
                   def test_method(foo:, arg: #{num})
                     use_the(arg)
@@ -35,7 +35,7 @@ module RuboCop
             end
 
             def test_detects_magic_numbers_used_as_both_defaults
-              matched_numerics.each do |num|
+              matched_numerics(:float).each do |num|
                 inspect_source(<<~RUBY)
                   def test_method(foo = #{num}, arg: #{num})
                     use_the(arg)
@@ -54,8 +54,6 @@ module RuboCop
                 violation_message: described_class::DEFAULT_OPTIONAL_ARGUMENT_MSG
               )
             end
-
-            def matched_numerics = TestHelper::FLOAT_LITERALS
 
             def described_class
               RuboCop::Cop::MagicNumbers::NoArgument
