@@ -91,8 +91,8 @@ module TestHelper
 
   def detected_message_for_cop_name(cop_name)
     ['Expected an offense',
-      string_for_cop_name(cop_name),
-    'to be detected but there was none'].compact.join(" ")
+     string_for_cop_name(cop_name),
+     'to be detected but there was none'].compact.join(' ')
   end
 
   def string_for_cop_name(cop_name = nil)
