@@ -1,4 +1,6 @@
-require_relative "no_magic_numbers"
+# frozen_string_literal: true
+
+require_relative 'no_magic_numbers'
 
 module RuboCop
   module Cop
