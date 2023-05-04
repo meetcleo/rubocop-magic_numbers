@@ -9,7 +9,7 @@ module RuboCop
       module Integer
         class NoReturnTest < ::Minitest::Test
           def test_when_a_method_explicitly_returns_an_integer
-            matched_numerics.each do |num|
+            matched_numerics(:integer).each do |num|
               inspect_source(<<~RUBY)
                 def test_method
                   return #{num}
@@ -24,7 +24,7 @@ module RuboCop
           end
 
           def test_when_a_method_conditionally_returns_an_integer_early
-            matched_numerics.each do |num|
+            matched_numerics(:integer).each do |num|
               inspect_source(<<~RUBY)
                 def test_method
                   return #{num} if condition
@@ -41,7 +41,7 @@ module RuboCop
           end
 
           def test_when_a_method_implicitly_returns_an_integer
-            matched_numerics.each do |num|
+            matched_numerics(:integer).each do |num|
               inspect_source(<<~RUBY)
                 def test_method
                   #{num}
@@ -56,8 +56,6 @@ module RuboCop
           end
 
           private
-
-          def matched_numerics = TestHelper::INTEGER_LITERALS
 
           def described_class
             RuboCop::Cop::MagicNumbers::NoReturn
@@ -74,7 +72,7 @@ module RuboCop
           def config
             @config ||= RuboCop::Config.new('MagicNumbers/NoReturn' => {
                                               'Enabled' => true,
-                                              'ForbiddenNumerics' => ['Integer']
+                                              'ForbiddenNumerics' => 'Integer'
                                             })
           end
         end
