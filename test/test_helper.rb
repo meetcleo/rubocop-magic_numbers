@@ -23,10 +23,6 @@ module TestHelper
   end
   alias refute_offense assert_no_offenses
 
-  protected
-
-  attr_writer :config
-
   private
 
   def parse_source(source, file = nil)
