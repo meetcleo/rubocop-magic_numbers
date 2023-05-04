@@ -2,6 +2,7 @@
 
 require 'minitest/autorun'
 require 'rubocop'
+require "byebug"
 
 module TestHelper
   FLOAT_LITERALS = %w[10.0 1e1 1.0E1].freeze
@@ -21,6 +22,10 @@ module TestHelper
     assert_empty(matching_offenses, 'Expected no offense to be detected but there was one')
   end
   alias refute_offense assert_no_offenses
+
+  protected
+
+  attr_writer :config
 
   private
 
@@ -85,7 +90,11 @@ module TestHelper
   end
 
   def config
-    @config ||= RuboCop::Config.new
+    @config ||= RuboCop::Config.new(hash)
+  end
+
+  def modify_config(hash = {})
+    self.config = RuboCop::Config.new(Hash(config).deep_merge(hash))
   end
 
   def matching_offenses_for_cop_name(cop_name)

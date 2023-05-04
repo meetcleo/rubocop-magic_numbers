@@ -101,6 +101,10 @@ module RuboCop
         def method_name(node)
           node.to_a[1]
         end
+
+        def node_matches_pattern?(node:, pattern:)
+          RuboCop::AST::NodePattern.new(pattern).match(node)
+        end
       end
     end
   end

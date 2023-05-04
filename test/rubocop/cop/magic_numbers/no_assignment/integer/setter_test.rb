@@ -23,6 +23,8 @@ module RuboCop
                 RUBY
 
                 assert_property_offense
+
+                reset_cop
               end
             end
 
@@ -35,6 +37,8 @@ module RuboCop
                 RUBY
 
                 assert_property_offense
+
+                reset_cop
               end
             end
 
@@ -53,6 +57,10 @@ module RuboCop
 
             def cop
               @cop ||= described_class.new(config)
+            end
+
+            def reset_cop
+              @cop = nil
             end
 
             def config
