@@ -25,6 +25,14 @@ module TestHelper
 
   private
 
+  def matched_numerics(type)
+    unless %i[float integer].include?(type.to_sym)
+      raise ArgumentError, "type must be one of float or int but was #{type}"
+    end
+
+    TestHelper.const_get("#{type.to_s.upcase}_LITERALS")
+  end
+
   def parse_source(source, file = nil)
     if file.respond_to?(:write)
       file.write(source)
