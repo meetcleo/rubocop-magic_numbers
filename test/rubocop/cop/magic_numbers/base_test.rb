@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'rubocop/no_magic_numbers'
 
 module RuboCop
   module Cop
