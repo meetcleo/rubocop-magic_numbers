@@ -6,7 +6,7 @@ module RuboCop
       # Base class for all shared behaviour between these cops
       class Base < ::RuboCop::Cop::Cop
         ILLEGAL_SCALAR_TYPES = %i[float int].freeze
-        ILLEGAL_SCALAR_PATTERN = "{#{ILLEGAL_SCALAR_TYPES.join(' ')}".freeze
+        ILLEGAL_SCALAR_PATTERN = "{#{ILLEGAL_SCALAR_TYPES.join(' ')}}".freeze
 
         private
 

@@ -7,9 +7,9 @@ module RuboCop
     module MagicNumbers
       # Raises an offense if a method returns with a magic number
       # Catches both explicit and implicit returns
-      class NoReturn < NoMagicNumbers
+      class NoReturn < Base
         MAGIC_NUMBER_RETURN_PATTERN = <<~PATTERN.chomp.freeze
-          ({#{ILLEGAL_SCALAR_TYPES.join(' ')}} _)
+          (#{ILLEGAL_SCALAR_PATTERN} _)
         PATTERN
         NO_EXPLICIT_RETURN_MSG = 'Do not return magic numbers from a method or proc'
 
