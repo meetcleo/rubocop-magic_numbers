@@ -2,6 +2,7 @@
 
 require 'minitest/autorun'
 require 'rubocop'
+require 'byebug'
 
 module TestHelper
   FLOAT_LITERALS = %w[10.0 1e1 1.0E1].freeze
@@ -85,7 +86,7 @@ module TestHelper
   end
 
   def config
-    @config ||= RuboCop::Config.new
+    @config ||= RuboCop::Config.new(hash)
   end
 
   def matching_offenses_for_cop_name(cop_name)
