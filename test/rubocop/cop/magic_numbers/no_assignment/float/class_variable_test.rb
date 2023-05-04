@@ -11,7 +11,7 @@ module RuboCop
         module Float
           class ClassVariableTest < Minitest::Test
             def setup
-              @matched_numerics = TestHelper::FLOAT_LITERALS + ["a"]
+              @matched_numerics = TestHelper::FLOAT_LITERALS
             end
 
             def test_ignores_magic_numbers_assigned_to_class_variables
