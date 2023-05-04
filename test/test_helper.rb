@@ -86,14 +86,19 @@ module TestHelper
   end
 
   def matching_offenses_for_cop_name(cop_name)
-    cop.offenses.dup
-    matching_offenses.keep_if { _1.cop_name == cop_name }
+    cop.offenses.select { _1.cop_name == cop_name }
   end
 
-  def violation_message_for_cop_name(cop_name)
-    message = ['Expected an offense', 'to be detected but there was none']
-    message.insert(1, "named #{cop_name}") if cop_name
-    message.join(' ')
+  def detected_message_for_cop_name(cop_name)
+    ['Expected an offense',
+      string_for_cop_name(cop_name),
+    'to be detected but there was none'].compact.join(" ")
+  end
+
+  def string_for_cop_name(cop_name = nil)
+    return nil unless cop_name
+
+    "named #{cop_name}"
   end
 end
 
