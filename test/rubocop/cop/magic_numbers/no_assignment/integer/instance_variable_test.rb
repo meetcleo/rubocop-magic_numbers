@@ -23,8 +23,6 @@ module RuboCop
                 RUBY
 
                 assert_instance_variable_offense
-
-                reset_cop
               end
             end
 
@@ -43,10 +41,6 @@ module RuboCop
 
             def cop
               @cop ||= described_class.new(config)
-            end
-
-            def reset_cop
-              @cop = nil
             end
 
             def config
