@@ -4,7 +4,7 @@ require "rubocop/cop/magic_numbers/no_magic_argument"
 module RuboCop
   module Cop
     module MagicNumbers
-      class NoMagicAssignmentTest < ::Minitest::Test
+      class NoArgumentTest < ::Minitest::Test
         def test_ignores_magic_integers_as_arguments_to_methods_on_another_object
           inspect_source(<<~RUBY)
             def test_method
@@ -48,7 +48,7 @@ module RuboCop
         private
 
         def described_class
-          RuboCop::Cop::MagicNumbers::NoMagicAssignment
+          RuboCop::Cop::MagicNumbers::NoArgument
         end
 
         def cop
@@ -56,7 +56,7 @@ module RuboCop
         end
 
         def config
-          @config ||= RuboCop::Config.new('MagicNumbers/NoMagicAssignment' => { 'Enabled' => true })
+          @config ||= RuboCop::Config.new('MagicNumbers/NoArgument' => { 'Enabled' => true })
         end
       end
     end
