@@ -5,7 +5,7 @@ require 'rubocop/cop/magic_numbers/version'
 
 Gem::Specification.new do |s|
   s.name = 'magic-numbers'
-  s.version = Rubocop::Cop::MagicNumbers::VERSION
+  s.version = RuboCop::Cop::MagicNumbers::VERSION
   s.summary = 'rubocop/magic_numbers implements a rubocop cop for detecting the use ' \
               'of bare numbers when linting'
   s.description = 'rubocop/magic_numbers implements a rubocop cop for detecting the use ' \

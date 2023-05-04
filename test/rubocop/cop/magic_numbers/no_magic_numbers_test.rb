@@ -3,7 +3,7 @@
 require 'test_helper'
 require 'rubocop/no_magic_numbers'
 
-module Rubocop
+module RuboCop
   module Cop
     module MagicNumbers
       class NoMagicNumbersTest < Minitest::Test
@@ -328,7 +328,7 @@ module Rubocop
         private
 
         def described_class
-          Rubocop::Cop::MagicNumbers::NoMagicNumbers
+          RuboCop::Cop::MagicNumbers::NoMagicNumbers
         end
 
         def cop
