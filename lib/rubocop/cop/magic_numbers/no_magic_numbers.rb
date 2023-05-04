@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Rubocop
+module RuboCop
   module Cop
     module MagicNumbers
       # Adds violations for magic numbers, aka assignments to variables with bare
