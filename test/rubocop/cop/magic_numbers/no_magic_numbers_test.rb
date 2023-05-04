@@ -241,6 +241,46 @@ module RuboCop
           )
         end
 
+        def test_ignores_magic_integers_as_arguments_to_methods_on_another_object
+          inspect_source(<<~RUBY)
+            def test_method
+              foo.inject(1)
+            end
+          RUBY
+
+          refute_offense(cop.name)
+        end
+
+        def test_ignores_magic_floats_as_arguments_to_methods_on_another_object
+          inspect_source(<<~RUBY)
+            def test_method
+              foo.inject(1.0)
+            end
+          RUBY
+
+          refute_offense(cop.name)
+        end
+
+        def test_ignores_magic_integers_as_arguments_to_methods_on_self
+          inspect_source(<<~RUBY)
+            def test_method
+              self.inject(1)
+            end
+          RUBY
+
+          refute_offense(cop.name)
+        end
+
+        def test_ignores_magic_floats_as_arguments_to_methods_on_self
+          inspect_source(<<~RUBY)
+            def test_method
+              self.inject(1.0)
+            end
+          RUBY
+
+          refute_offense(cop.name)
+        end
+
         def test_detects_magic_integers_assigned_to_global_variables
           inspect_source(<<~RUBY)
             def test_method
