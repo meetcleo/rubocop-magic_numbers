@@ -26,7 +26,7 @@ module TestHelper
   private
 
   def matched_numerics(type)
-    unless [:float, :integer].include?(type.to_sym)
+    unless %i[float integer].include?(type.to_sym)
       raise ArgumentError, "type must be one of float or int but was #{type}"
     end
 

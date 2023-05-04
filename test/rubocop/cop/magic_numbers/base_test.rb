@@ -11,17 +11,17 @@ module RuboCop
           config = RuboCop::Config.new('MagicNumbers/NoReturn' => { 'Enabled' => true })
           cop = RuboCop::Cop::MagicNumbers::NoReturn.new(config)
 
-          assert_equal(cop.cop_config['ForbiddenNumerics'], 'All')
+          assert_equal('All', cop.cop_config['ForbiddenNumerics'])
         end
 
         def test_config_with_defaults_changed
           config = RuboCop::Config.new('MagicNumbers/NoReturn' => {
-            'Enabled' => true,
-            'ForbiddenNumerics' => 'Float'
-          })
+                                         'Enabled' => true,
+                                         'ForbiddenNumerics' => 'Float'
+                                       })
           cop = RuboCop::Cop::MagicNumbers::NoReturn.new(config)
 
-          assert_equal(cop.cop_config['ForbiddenNumerics'], 'Float')
+          assert_equal('Float', cop.cop_config['ForbiddenNumerics'])
         end
       end
     end
