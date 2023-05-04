@@ -14,9 +14,9 @@ module RuboCop
         NO_EXPLICIT_RETURN_MSG = 'Do not return magic numbers from a method or proc'
 
         def on_def(node)
-          if implicit_return?(node.children.last)
-            add_offense(node, location: :expression, message: NO_EXPLICIT_RETURN_MSG)
-          end
+          return unless implicit_return?(node.children.last)
+
+          add_offense(node, location: :expression, message: NO_EXPLICIT_RETURN_MSG)
         end
 
         def on_return(node)
@@ -28,7 +28,7 @@ module RuboCop
         private
 
         def implicit_return?(node)
-          node_matches_pattern?(node: node, pattern: MAGIC_NUMBER_RETURN_PATTERN)
+          node_matches_pattern?(node:, pattern: MAGIC_NUMBER_RETURN_PATTERN)
         end
       end
     end
