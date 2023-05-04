@@ -6,7 +6,7 @@
 
 ## Running the tests
 
-`rake test` or `ruby -Ilib -Itest  test/lib/no_magic_numbers_test.rb`, depending on your preference.
+`rake test` or `ruby -Ilib -Itest name-of-file.rb`, depending on your preference.
 
 ## Contributing
 

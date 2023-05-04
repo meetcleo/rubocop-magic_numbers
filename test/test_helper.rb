@@ -3,6 +3,7 @@
 require 'minitest/autorun'
 require 'rubocop'
 require 'byebug'
+require 'rubocop/magic_numbers'
 
 module TestHelper
   FLOAT_LITERALS = %w[10.0 1e1 1.0E1].freeze

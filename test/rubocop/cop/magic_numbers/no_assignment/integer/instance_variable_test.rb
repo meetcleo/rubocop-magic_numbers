@@ -2,7 +2,6 @@
 
 require 'minitest/autorun'
 require 'test_helper'
-require 'rubocop/no_magic_numbers'
 
 module RuboCop
   module Cop
