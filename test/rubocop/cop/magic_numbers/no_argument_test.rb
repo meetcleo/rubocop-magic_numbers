@@ -1,5 +1,7 @@
-require "test_helper"
-require "rubocop/cop/magic_numbers/no_argument"
+# frozen_string_literal: true
+
+require 'test_helper'
+require 'rubocop/cop/magic_numbers/no_argument'
 
 module RuboCop
   module Cop
