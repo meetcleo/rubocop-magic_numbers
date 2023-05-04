@@ -4,6 +4,9 @@ require 'minitest/autorun'
 require 'rubocop'
 
 module TestHelper
+  FLOAT_LITERALS = %w[10.0 1e1 1.0E1].freeze
+  INTEGER_LITERALS = %w[10 1_0].freeze
+
   def assert_offense(cop_name: nil, violation_message: nil)
     matching_offenses = matching_offenses_for_cop_name(cop_name)
     detected_message = detected_message_for_cop_name(cop_name)
