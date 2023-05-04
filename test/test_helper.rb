@@ -8,7 +8,7 @@ module TestHelper
   FLOAT_LITERALS = %w[10.0 1e1 1.0E1].freeze
   INTEGER_LITERALS = %w[10 1_0].freeze
 
-  def assert_include(collection, item)
+  def assert_includes(collection, item)
     assert collection.include?(item), "expected collection #{collection} to include #{item}"
   end
 

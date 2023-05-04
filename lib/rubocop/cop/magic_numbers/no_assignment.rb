@@ -29,6 +29,13 @@ module RuboCop
         INSTANCE_VARIABLE_ASSIGN_MSG = 'Do not use magic number instance variables'
         MULTIPLE_ASSIGN_MSG = 'Do not use magic numbers in multiple assignments'
         PROPERTY_MSG = 'Do not use magic numbers to set properties'
+        DEFAULT_CONFIG = {
+          'AllowedAssignments' => %w[class_variables global_variables]
+        }.freeze
+
+        def cop_config
+          DEFAULT_CONFIG.merge(super)
+        end
 
         def on_local_variable_assignment(node)
           return unless illegal_scalar_value?(node)

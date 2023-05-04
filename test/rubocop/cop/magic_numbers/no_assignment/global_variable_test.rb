@@ -9,12 +9,13 @@ module RuboCop
     module MagicNumbers
       class NoAssignment
         class GlobalVariableTest < Minitest::Test
-          def test_config_defaults_to_allow_global_variables
-            allowed_assignments = described_class.new(config).cop_config['AllowedAssignments']
+          def test_ignores_magic_numbers_assigned_to_global_variables_by_default
+            cop_class = described_class.new(config)
 
-            assert_include(allowed_assignments, 'global_variables')
+            allowed_assignments = cop_class.cop_config['AllowedAssignments']
+
+            assert_includes(allowed_assignments, 'global_variables')
           end
-
 
           private
 
