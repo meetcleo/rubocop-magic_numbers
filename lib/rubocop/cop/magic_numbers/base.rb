@@ -20,7 +20,6 @@ module RuboCop
           CONFIG_FLOAT => %i[float]
         }.freeze
 
-
         # The configuration for this cop, pre-set with defaults
         #
         # Returns Hash
