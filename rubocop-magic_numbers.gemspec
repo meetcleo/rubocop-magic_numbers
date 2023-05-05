@@ -4,7 +4,7 @@ $LOAD_PATH << File.expand_path('lib', __dir__)
 require 'rubocop/cop/magic_numbers/version'
 
 Gem::Specification.new do |s|
-  s.name = 'magic-numbers'
+  s.name = 'rubocop-magic_numbers'
   s.version = RuboCop::Cop::MagicNumbers::VERSION
   s.summary = 'rubocop/magic_numbers implements a rubocop cop for detecting the use ' \
               'of bare numbers when linting'
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.authors = ['Gavin Morrice', 'Fell Sunderland']
   s.email = ['gavin@gavinmorrice.com', 'fell@meetcleo.com']
 
-  s.homepage = 'https://github.com/Bodacious/no-magic-numbers-cop'
+  s.homepage = 'https://github.com/Bodacious/rubocop-magic_numbers'
 
   s.add_dependency('parser')
   s.add_dependency('rubocop')
