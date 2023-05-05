@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'minitest/autorun'
+require 'minitest/color'
 require 'rubocop'
 require 'byebug'
 require 'rubocop/magic_numbers'
