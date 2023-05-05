@@ -131,8 +131,6 @@ module RuboCop
         end
 
         def test_detects_magic_numbers_implicitly_returned_from_methods_after_other_things
-          skip('Currently not working')
-
           matched_numerics.each do |num|
             inspect_source(<<~RUBY, cops: all_cops)
               def test_method
