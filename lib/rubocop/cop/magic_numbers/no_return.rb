@@ -16,13 +16,13 @@ module RuboCop
         def on_def(node)
           return unless implicit_return?(node.children.last)
 
-          add_offense(node, location: :expression, message: NO_EXPLICIT_RETURN_MSG)
+          add_offense(node.children.last, location: :expression, message: NO_EXPLICIT_RETURN_MSG)
         end
 
         def on_return(node)
           return unless forbidden_numerics.include?(node.children.first&.type)
 
-          add_offense(node, location: :expression, message: NO_EXPLICIT_RETURN_MSG)
+          add_offense(node.children.first, location: :expression, message: NO_EXPLICIT_RETURN_MSG)
         end
 
         private
