@@ -8,13 +8,18 @@ module RuboCop
     module MagicNumbers
       class NoAssignment
         class SetterTest < Minitest::Test
-          def setup
-            # We detect floats or ints, so this is used in tests to check for both
-            @matched_numerics = TestHelper::FLOAT_LITERALS + TestHelper::INTEGER_LITERALS
+          def test_ignores_magic_numbers_assigned_via_setters_outside_of_methods
+            matched_numerics.each do |num|
+              inspect_source(<<~RUBY)
+                self.set_attribute = #{num}
+              RUBY
+
+              assert_no_offenses
+            end
           end
 
           def test_detects_magic_numbers_assigned_via_setters_on_self
-            @matched_numerics.each do |num|
+            matched_numerics.each do |num|
               inspect_source(<<~RUBY)
                 def test_method
                   self.set_attribute = #{num}
@@ -26,7 +31,7 @@ module RuboCop
           end
 
           def test_detects_magic_numbers_assigned_via_setters_on_another_object
-            @matched_numerics.each do |num|
+            matched_numerics.each do |num|
               inspect_source(<<~RUBY)
                 def test_method
                   foo.set_attribute = #{num}

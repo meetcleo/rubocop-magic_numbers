@@ -57,6 +57,10 @@ module RuboCop
         def node_matches_pattern?(node:, pattern:)
           RuboCop::AST::NodePattern.new(pattern).match(node)
         end
+
+        def node_within_method?(node)
+          node.ancestors.any?(&:def_type?)
+        end
       end
     end
   end

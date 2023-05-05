@@ -9,12 +9,8 @@ module RuboCop
       class NoAssignment
         module Integer
           class SetterTest < Minitest::Test
-            def setup
-              @matched_numerics = TestHelper::INTEGER_LITERALS
-            end
-
             def test_detects_magic_numbers_assigned_via_setters_on_self
-              @matched_numerics.each do |num|
+              matched_numerics(:integer).each do |num|
                 inspect_source(<<~RUBY)
                   def test_method
                     self.set_attribute = #{num}
@@ -26,7 +22,7 @@ module RuboCop
             end
 
             def test_detects_magic_numbers_assigned_via_setters_on_another_object
-              @matched_numerics.each do |num|
+              matched_numerics(:integer).each do |num|
                 inspect_source(<<~RUBY)
                   def test_method
                     foo.set_attribute = #{num}

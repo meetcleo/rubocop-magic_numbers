@@ -8,6 +8,7 @@ require 'rubocop/magic_numbers'
 module TestHelper
   FLOAT_LITERALS = %w[10.0 1e1 1.0E1].freeze
   INTEGER_LITERALS = %w[10 1_0].freeze
+  ALL_LITERALS = (FLOAT_LITERALS | INTEGER_LITERALS).freeze
 
   def assert_offense(cop_name: nil, violation_message: nil)
     matching_offenses = matching_offenses_for_cop_name(cop_name)
@@ -28,9 +29,9 @@ module TestHelper
 
   private
 
-  def matched_numerics(type)
-    unless %i[float integer].include?(type.to_sym)
-      raise ArgumentError, "type must be one of float or int but was #{type}"
+  def matched_numerics(type = :all)
+    unless %i[all float integer].include?(type.to_sym)
+      raise ArgumentError, "type must be one of all, float, or integer but was #{type}"
     end
 
     TestHelper.const_get("#{type.to_s.upcase}_LITERALS")
