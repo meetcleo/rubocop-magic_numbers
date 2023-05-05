@@ -8,15 +8,18 @@ module RuboCop
     module MagicNumbers
       class NoAssignment
         class ClassVariableTest < Minitest::Test
-          def setup
-            # We detect floats or ints, so this is used in tests to check for both
-            @matched_numerics = TestHelper::FLOAT_LITERALS + TestHelper::INTEGER_LITERALS
+          def test_ignores_magic_numbers_assigned_to_class_variables_in_default_config
+            cop_class = described_class.new(config)
+
+            allowed_assignments = cop_class.cop_config['AllowedAssignments']
+
+            assert_includes(allowed_assignments, 'class_variables')
           end
 
-          def test_ignores_magic_numbers_assigned_to_class_variables
-            @matched_numerics.each do |num|
+          def test_ignores_magic_numbers_assigned_to_class_variables_by_default
+            matched_numerics.each do |num|
               inspect_source(<<~RUBY)
-                def test_method
+                class TestClass
                   @@class_variable = #{num}
                 end
               RUBY
