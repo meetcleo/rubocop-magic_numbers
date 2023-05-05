@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    magic-numbers (0.0.1)
+    rubocop-magic_numbers (0.0.1)
       parser
       rubocop
 
@@ -47,9 +47,9 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  magic-numbers!
   minitest
   rake
+  rubocop-magic_numbers!
   rubocop-minitest
   rubocop-rake
   rubocop-require_tools
