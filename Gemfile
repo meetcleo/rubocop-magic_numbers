@@ -10,6 +10,7 @@ gemspec
 # Development dependencies
 gem 'byebug'
 gem 'minitest'
+gem 'minitest-color'
 gem 'rake'
 gem 'rubocop-minitest'
 gem 'rubocop-rake'
