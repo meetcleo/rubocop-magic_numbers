@@ -1,5 +1,9 @@
 # No Magic Numbers
 
+![https://github.com/bodacious/rubocop-magic_numbers/actions/workflows/ruby.yml/badge.svg](https://github.com/bodacious/rubocop-magic_numbers/actions/workflows/ruby/badge.svg)
+![https://github.com/bodacious/rubocop-magic_numbers/actions/workflows/rubocop.yml/badge.svg](https://github.com/bodacious/rubocop-magic_numbers/actions/workflows/rubocop/badge.svg)
+
+
 ## Installation
 
 `git clone git@github.com:Bodacious/no-magic-numbers-cop.git`
