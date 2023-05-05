@@ -28,7 +28,8 @@ module RuboCop
         private
 
         def implicit_return?(node)
-          return implicit_return?(node.children.last) if node.begin_type?
+          is_node_begin_type = node.is_a?(RuboCop::AST::Node) && node.begin_type?
+          return implicit_return?(node.children.last) if is_node_begin_type
 
           pattern = format(MAGIC_NUMBER_RETURN_PATTERN, {
                              illegal_scalar_pattern:
