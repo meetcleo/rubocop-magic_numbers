@@ -28,6 +28,8 @@ module RuboCop
         private
 
         def implicit_return?(node)
+          return implicit_return?(node.children.last) if node.begin_type?
+
           pattern = format(MAGIC_NUMBER_RETURN_PATTERN, {
                              illegal_scalar_pattern:
                            })
