@@ -20,7 +20,6 @@ module RuboCop
           CONFIG_FLOAT => %i[float]
         }.freeze
 
-        NODE_TYPE_METHOD_DEFINITION = :def
 
         # The configuration for this cop, pre-set with defaults
         #
@@ -61,7 +60,7 @@ module RuboCop
         end
 
         def node_within_method?(node)
-          node.ancestors.any? { _1.type == NODE_TYPE_METHOD_DEFINITION }
+          node.ancestors.any?(&:def_type?)
         end
       end
     end
