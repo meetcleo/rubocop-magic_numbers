@@ -20,6 +20,8 @@ module RuboCop
           CONFIG_FLOAT => %i[float]
         }.freeze
 
+        NODE_TYPE_METHOD_DEFINITION = :def
+
         # The configuration for this cop, pre-set with defaults
         #
         # Returns Hash
@@ -56,6 +58,10 @@ module RuboCop
         # Returns Boolean
         def node_matches_pattern?(node:, pattern:)
           RuboCop::AST::NodePattern.new(pattern).match(node)
+        end
+
+        def node_within_method?(node)
+          node.ancestors.any? { _1.type == NODE_TYPE_METHOD_DEFINITION }
         end
       end
     end

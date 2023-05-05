@@ -41,6 +41,7 @@ module RuboCop
 
         def on_local_variable_assignment(node)
           return unless illegal_scalar_value?(node)
+          return unless node_within_method?(node)
 
           add_offense(node, location: :expression, message: LOCAL_VARIABLE_ASSIGN_MSG)
         end
@@ -48,6 +49,7 @@ module RuboCop
 
         def on_instance_variable_assignment(node)
           return unless illegal_scalar_value?(node)
+          return unless node_within_method?(node)
 
           add_offense(node, location: :expression, message: INSTANCE_VARIABLE_ASSIGN_MSG)
         end
@@ -55,6 +57,7 @@ module RuboCop
 
         def on_message_send(node)
           return unless illegal_scalar_argument_to_setter?(node)
+          return unless node_within_method?(node)
 
           add_offense(node, location: :expression, message: PROPERTY_MSG)
         end
