@@ -1,7 +1,7 @@
 # No Magic Numbers
 
-![Ruby tests](https://github.com/bodacious/rubocop-magic_numbers/actions/workflows/ruby.yml/badge.svg)
-![RuboCop Lint](https://github.com/bodacious/rubocop-magic_numbers/actions/workflows/rubocop.yml/badge.svg)
+![Ruby tests](https://github.com/bodacious/rubocop-magic_numbers/actions/workflows/tests.yml/badge.svg)
+![RuboCop Lint](https://github.com/bodacious/rubocop-magic_numbers/actions/workflows/linter.yml/badge.svg)
 
 
 ## Installation
