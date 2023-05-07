@@ -44,13 +44,13 @@ module RuboCop
 
         ARGUMENT_MSG = 'Do not use magic number arguments to methods'
 
-        CONFIG_IGNORED_METHODS_NAME = "IgnoredMethods"
+        CONFIG_IGNORED_METHODS_NAME = 'IgnoredMethods'
 
         # By default, don't raise an offense for magic numbers arguments
         # for these methods
         DEFAULT_CONFIG = {
           CONFIG_IGNORED_METHODS_NAME => ['[]']
-        }
+        }.freeze
 
         def cop_config
           super.merge(DEFAULT_CONFIG)
