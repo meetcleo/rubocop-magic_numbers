@@ -13,19 +13,41 @@ module RuboCop
         PATTERN
         NO_EXPLICIT_RETURN_MSG = 'Do not return magic numbers from a method or proc'
 
-        def on_def(node)
+        CONFIG_NAME_ALLOWED_RETURNS = 'AllowedReturns'
+
+        RETURN_TYPE_IMPLICIT = 'Implicit'
+        RETURN_TYPE_EXPLICIT = 'Explicit'
+        RETURN_TYPE_NONE = 'None'
+
+        # Supported values are 'Explicit', 'Implicit', 'None'
+        DEFAULT_CONFIG = {
+          CONFIG_NAME_ALLOWED_RETURNS => [RETURN_TYPE_NONE]
+        }.freeze
+
+        def cop_config
+          super.merge(DEFAULT_CONFIG)
+        end
+
+        def on_method_defined(node)
+          return if allowed_returns.include?(RETURN_TYPE_IMPLICIT)
           return unless implicit_return?(node.children.last)
 
           add_offense(node.children.last, location: :expression, message: NO_EXPLICIT_RETURN_MSG)
         end
+        alias on_def on_method_defined
 
         def on_return(node)
+          return if allowed_returns.include?(RETURN_TYPE_EXPLICIT)
           return unless forbidden_numerics.include?(node.children.first&.type)
 
           add_offense(node.children.first, location: :expression, message: NO_EXPLICIT_RETURN_MSG)
         end
 
         private
+
+        def allowed_returns
+          Array(cop_config[CONFIG_NAME_ALLOWED_RETURNS])
+        end
 
         def implicit_return?(node)
           is_node_begin_type = node.is_a?(RuboCop::AST::Node) && node.begin_type?
