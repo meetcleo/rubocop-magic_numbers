@@ -91,6 +91,27 @@ module RuboCop
             end
           end
 
+          def test_allows_explicit_return_of_an_integer_when_config_set
+            update_config({
+                            'MagicNumbers/NoReturn' => {
+                              'Enabled' => true,
+                              'ForbiddenNumerics' => 'Integer',
+                              'AllowedReturns' => ['Explicit']
+                            }
+                          })
+            matched_numerics(:integer).each do |num|
+              inspect_source(<<~RUBY)
+                def test_method
+                  return #{num}
+
+                  other_method
+                end
+              RUBY
+
+              assert_no_offenses(cop_name:)
+            end
+          end
+
           private
 
           def described_class
