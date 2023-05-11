@@ -48,6 +48,16 @@ module RuboCop
             end
           end
 
+          def test_allows_magic_numbers_in_square_bracket_enum_index_arguments
+            matched_numerics(:integer).each do |num|
+              inspect_source(<<~RUBY)
+                my_collection[#{num}]
+              RUBY
+
+              assert_no_offenses
+            end
+          end
+
           private
 
           def assert_argument_offense
@@ -55,10 +65,6 @@ module RuboCop
               cop_name: cop.name,
               violation_message: described_class::ARGUMENT_MSG
             )
-          end
-
-          def matched_numerics
-            TestHelper::FLOAT_LITERALS + TestHelper::INTEGER_LITERALS
           end
 
           def described_class
