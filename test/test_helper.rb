@@ -98,8 +98,18 @@ module TestHelper
     raise NotImplementedError, "Please define `cop' in your test"
   end
 
+  def update_config(updated_config = {})
+    remove_instance_variable(:@config) if defined?(@config)
+
+    set_config(updated_config)
+  end
+
   def config
-    @config ||= RuboCop::Config.new(hash)
+    @config ||= set_config
+  end
+
+  def set_config(hash = {})
+    RuboCop::Config.new(hash)
   end
 
   def matching_offenses_for_cop_name(cop_name)
