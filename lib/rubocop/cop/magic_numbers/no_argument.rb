@@ -27,9 +27,6 @@ module RuboCop
           )
         PATTERN
 
-        DEFAULT_OPTIONAL_ARGUMENT_MSG = 'Do not use magic number optional ' \
-                                        'argument defaults'
-
         ARGUMENT_MSG = 'Do not use magic number arguments to methods'
 
         CONFIG_IGNORED_METHODS_NAME = 'IgnoredMethods'

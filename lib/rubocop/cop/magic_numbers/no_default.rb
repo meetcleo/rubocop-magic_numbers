@@ -27,26 +27,8 @@ module RuboCop
           )
         PATTERN
 
-        MAGIC_NUMBER_ARGUMENT_PATTERN = <<-PATTERN
-          (send
-            {
-              _
-              _
-              (%<illegal_scalar_pattern>s _)
-              | # This is a union of lhs and rhs literal
-              (%<illegal_scalar_pattern>s _)
-              _
-              _
-            }
-          )
-        PATTERN
-
         DEFAULT_OPTIONAL_ARGUMENT_MSG = 'Do not use magic number optional ' \
                                         'argument defaults'
-
-        ARGUMENT_MSG = 'Do not use magic number arguments to methods'
-
-        CONFIG_IGNORED_METHODS_NAME = 'IgnoredMethods'
 
         def on_method_defined(node)
           return unless illegal_positional_default?(node)
