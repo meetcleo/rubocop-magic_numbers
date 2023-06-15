@@ -8,10 +8,10 @@ module RuboCop
       # Adds violations for magic numbers when used as the argument to a method
       #
       # BAD:
-      # def bottles_on_the_wall(100)
+      # object.bottles_on_the_wall(100)
       #
       # GOOD:
-      # def bottles_on_the_wall(DEFAULT_BOTTLE_COUNT)
+      # object.bottles_on_the_wall(DEFAULT_BOTTLE_COUNT)
       class NoArgument < Base
         MAGIC_NUMBER_ARGUMENT_PATTERN = <<-PATTERN
           (send

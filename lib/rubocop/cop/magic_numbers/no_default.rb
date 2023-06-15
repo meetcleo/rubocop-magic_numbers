@@ -8,9 +8,11 @@ module RuboCop
       # Adds violations for magic numbers, when used as default values for
       # arguments to methods
       #
-      # bad: def on_the_wall(bottles = 100)
+      # BAD
+      # def on_the_wall(bottles = 100)
       #
-      # good: def on_the_wall(bottles = DEFAULT_BOTTLE_COUNT)
+      # GOOD
+      # def on_the_wall(bottles = DEFAULT_BOTTLE_COUNT)
       class NoDefault < Base
         MAGIC_NUMBER_OPTIONAL_ARGUMENT_PATTERN = <<-PATTERN
           (def
