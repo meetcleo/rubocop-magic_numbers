@@ -9,6 +9,7 @@ module RuboCop
       # These tests are to ensure that when all cops are enabled, only the
       # intended cop marks an offense
       class AllCopsTest < Minitest::Test
+        # rubocop:disable Minitest/MultipleAssertions
         def test_detects_magic_numbers_used_as_positional_defaults
           matched_numerics.each do |num|
             inspect_source(<<~RUBY, cops: all_cops)
@@ -18,9 +19,10 @@ module RuboCop
             RUBY
 
             assert_offense(
-              cop_name: no_argument_cop.name,
-              violation_message: no_argument_cop.class::DEFAULT_OPTIONAL_ARGUMENT_MSG
+              cop_name: no_default_cop.name,
+              violation_message: no_default_cop.class::DEFAULT_OPTIONAL_ARGUMENT_MSG
             )
+            assert_no_offenses(cop_name: no_argument_cop)
             assert_no_offenses(cop_name: no_assignment_cop)
             assert_no_offenses(cop_name: no_return_cop)
           end
@@ -35,9 +37,10 @@ module RuboCop
             RUBY
 
             assert_offense(
-              cop_name: no_argument_cop.name,
-              violation_message: no_argument_cop.class::DEFAULT_OPTIONAL_ARGUMENT_MSG
+              cop_name: no_default_cop.name,
+              violation_message: no_default_cop.class::DEFAULT_OPTIONAL_ARGUMENT_MSG
             )
+            assert_no_offenses(cop_name: no_argument_cop)
             assert_no_offenses(cop_name: no_assignment_cop)
             assert_no_offenses(cop_name: no_return_cop)
           end
@@ -56,6 +59,7 @@ module RuboCop
               cop_name: no_assignment_cop.name,
               violation_message: no_assignment_cop.class::LOCAL_VARIABLE_ASSIGN_MSG
             )
+            assert_no_offenses(cop_name: no_default_cop)
             assert_no_offenses(cop_name: no_return_cop)
           end
         end
@@ -147,16 +151,15 @@ module RuboCop
           end
         end
 
-        private
+        # rubocop:enable Minitest/MultipleAssertions
 
-        def matched_numerics
-          TestHelper::FLOAT_LITERALS + TestHelper::INTEGER_LITERALS
-        end
+        private
 
         def all_cops
           @all_cops ||= [
             no_argument_cop,
             no_assignment_cop,
+            no_default_cop,
             no_return_cop
           ]
         end
@@ -167,6 +170,10 @@ module RuboCop
 
         def no_assignment_cop
           @no_assignment_cop ||= RuboCop::Cop::MagicNumbers::NoAssignment.new(config)
+        end
+
+        def no_default_cop
+          @no_default_cop ||= RuboCop::Cop::MagicNumbers::NoDefault.new(config)
         end
 
         def no_return_cop

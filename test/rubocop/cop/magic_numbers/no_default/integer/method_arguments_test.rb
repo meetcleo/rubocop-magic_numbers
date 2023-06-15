@@ -6,11 +6,11 @@ require 'test_helper'
 module RuboCop
   module Cop
     module MagicNumbers
-      class NoArgument
-        module Float
-          class DefaultTest < Minitest::Test
+      class NoDefault
+        module Integer
+          class MethodArgumentsTest < Minitest::Test
             def test_detects_magic_numbers_used_as_positional_defaults
-              matched_numerics(:float).each do |num|
+              matched_numerics(:integer).each do |num|
                 inspect_source(<<~RUBY)
                   def test_method(foo, arg = #{num})
                     use_the(arg)
@@ -22,7 +22,7 @@ module RuboCop
             end
 
             def test_detects_magic_numbers_used_as_keyword_defaults
-              matched_numerics(:float).each do |num|
+              matched_numerics(:integer).each do |num|
                 inspect_source(<<~RUBY)
                   def test_method(foo:, arg: #{num})
                     use_the(arg)
@@ -34,7 +34,7 @@ module RuboCop
             end
 
             def test_detects_magic_numbers_used_as_both_defaults
-              matched_numerics(:float).each do |num|
+              matched_numerics(:integer).each do |num|
                 inspect_source(<<~RUBY)
                   def test_method(foo = #{num}, arg: #{num})
                     use_the(arg)
@@ -55,7 +55,7 @@ module RuboCop
             end
 
             def described_class
-              RuboCop::Cop::MagicNumbers::NoArgument
+              RuboCop::Cop::MagicNumbers::NoDefault
             end
 
             def cop
@@ -63,12 +63,7 @@ module RuboCop
             end
 
             def config
-              @config ||= RuboCop::Config.new(
-                'MagicNumbers/NoArgument' => {
-                  'Enabled' => true,
-                  'ForbiddenNumerics' => 'Float'
-                }
-              )
+              @config ||= RuboCop::Config.new('MagicNumbers/NoDefault' => { 'Enabled' => true })
             end
           end
         end
