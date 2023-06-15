@@ -10,7 +10,7 @@ module RuboCop
       # BAD:
       # def bottles_on_the_wall(100)
       #
-      # BAD:
+      # GOOD:
       # def bottles_on_the_wall(DEFAULT_BOTTLE_COUNT)
       class NoArgument < Base
         MAGIC_NUMBER_ARGUMENT_PATTERN = <<-PATTERN
