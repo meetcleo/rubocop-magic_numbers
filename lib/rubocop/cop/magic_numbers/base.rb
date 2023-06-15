@@ -60,6 +60,11 @@ module RuboCop
           RuboCop::AST::NodePattern.new(pattern).match(node)
         end
 
+        # Check if the given AST node is within a method definition
+        #
+        # node    - A RuboCop::AST::ProcessedSource
+        #
+        # Returns Boolean
         def node_within_method?(node)
           node.ancestors.any?(&:def_type?)
         end
