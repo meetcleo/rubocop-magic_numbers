@@ -57,41 +57,13 @@ module RuboCop
         end
         alias on_def on_method_defined # rubocop API method name
 
-        def on_message_send(node)
-          return unless illegal_argument?(node)
-          return if ignored_method?(node)
-
-          add_offense(node, location: :expression, message: ARGUMENT_MSG)
-        end
-        alias on_send on_message_send # rubocop API method name
-
         private
-
-        def ignored_method?(node)
-          return false unless node.respond_to?(:method_name)
-
-          ignored_methods.include?(node.method_name)
-        end
-
-        def ignored_methods
-          Array(cop_config[CONFIG_IGNORED_METHODS_NAME]).map(&:to_sym)
-        end
 
         def illegal_positional_default?(node)
           node_matches_pattern?(
             node:,
             pattern: format(
               MAGIC_NUMBER_OPTIONAL_ARGUMENT_PATTERN,
-              illegal_scalar_pattern:
-            )
-          )
-        end
-
-        def illegal_argument?(node)
-          node_matches_pattern?(
-            node:,
-            pattern: format(
-              MAGIC_NUMBER_ARGUMENT_PATTERN,
               illegal_scalar_pattern:
             )
           )
