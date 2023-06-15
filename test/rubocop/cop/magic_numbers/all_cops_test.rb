@@ -9,6 +9,7 @@ module RuboCop
       # These tests are to ensure that when all cops are enabled, only the
       # intended cop marks an offense
       class AllCopsTest < Minitest::Test
+        # rubocop:disable Minitest/MultipleAssertions
         def test_detects_magic_numbers_used_as_positional_defaults
           matched_numerics.each do |num|
             inspect_source(<<~RUBY, cops: all_cops)
@@ -149,6 +150,8 @@ module RuboCop
             )
           end
         end
+
+        # rubocop:enable Minitest/MultipleAssertions
 
         private
 
