@@ -12,7 +12,7 @@ module RuboCop
       # bad: hours = 24
       #
       # good: HOURS_IN_ONE_DAY = 24
-      class NoAssignment < Base
+      class NoAssignment < RuboCop::Cop::MagicNumbers::Base
         MAGIC_NUMBER_ARGUMENT_TO_SETTER_PATTERN = <<-PATTERN
           (send
             ({send self} ...)

@@ -13,7 +13,7 @@ module RuboCop
       #
       # GOOD
       # def on_the_wall(bottles = DEFAULT_BOTTLE_COUNT)
-      class NoDefault < Base
+      class NoDefault < RuboCop::Cop::MagicNumbers::Base
         MAGIC_NUMBER_OPTIONAL_ARGUMENT_PATTERN = <<-PATTERN
           (def
             _

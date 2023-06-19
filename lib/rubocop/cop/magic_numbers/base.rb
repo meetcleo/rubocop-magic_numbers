@@ -1,12 +1,26 @@
 # frozen_string_literal: true
 
+require 'rubocop'
 require 'rubocop/cop/cop'
+begin
+  require 'rubocop/cop/base'
+rescue LoadError
+end
 
 module RuboCop
   module Cop
     module MagicNumbers
       # Base class for all shared behaviour between these cops
-      class Base < ::RuboCop::Cop::Cop
+
+      def self.best_base_class
+        if ::RuboCop::Cop.const_defined?('Base')
+          ::RuboCop::Cop::Base
+        else
+          ::RuboCop::Cop::Cop
+        end
+      end
+
+      class Base < best_base_class
         CONFIG_ALL = 'All'
         CONFIG_FLOAT = 'Float'
         CONFIG_INTEGER = 'Integer'

@@ -12,7 +12,7 @@ module RuboCop
       #
       # GOOD:
       # object.bottles_on_the_wall(DEFAULT_BOTTLE_COUNT)
-      class NoArgument < Base
+      class NoArgument < RuboCop::Cop::MagicNumbers::Base
         MAGIC_NUMBER_ARGUMENT_PATTERN = <<-PATTERN
           (send
             {
