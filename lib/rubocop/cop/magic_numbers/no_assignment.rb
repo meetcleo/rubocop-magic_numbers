@@ -43,7 +43,7 @@ module RuboCop
           return unless illegal_scalar_value?(node)
           return unless node_within_method?(node)
 
-          add_offense(node, location: :expression, message: LOCAL_VARIABLE_ASSIGN_MSG)
+          add_offense(node, message: LOCAL_VARIABLE_ASSIGN_MSG)
         end
         alias on_lvasgn on_local_variable_assignment # rubocop API method name
 
@@ -51,7 +51,7 @@ module RuboCop
           return unless illegal_scalar_value?(node)
           return unless node_within_method?(node)
 
-          add_offense(node, location: :expression, message: INSTANCE_VARIABLE_ASSIGN_MSG)
+          add_offense(node, message: INSTANCE_VARIABLE_ASSIGN_MSG)
         end
         alias on_ivasgn on_instance_variable_assignment # rubocop API method name
 
@@ -59,7 +59,7 @@ module RuboCop
           return unless illegal_scalar_argument_to_setter?(node)
           return unless node_within_method?(node)
 
-          add_offense(node, location: :expression, message: PROPERTY_MSG)
+          add_offense(node, message: PROPERTY_MSG)
         end
         alias on_send on_message_send # rubocop API method name
 
@@ -69,7 +69,7 @@ module RuboCop
           # numbers amongst their assignments
           return false unless illegal_multi_assign_right_hand_side?(node)
 
-          add_offense(node, location: :expression, message: MULTIPLE_ASSIGN_MSG)
+          add_offense(node, message: MULTIPLE_ASSIGN_MSG)
         end
         alias on_masgn on_multiple_assign
 

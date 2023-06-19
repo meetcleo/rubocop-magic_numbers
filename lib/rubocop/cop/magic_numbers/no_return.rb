@@ -32,7 +32,7 @@ module RuboCop
           return if allowed_returns.include?(RETURN_TYPE_IMPLICIT)
           return unless implicit_return?(node.children.last)
 
-          add_offense(node.children.last, location: :expression, message: NO_EXPLICIT_RETURN_MSG)
+          add_offense(node.children.last, message: NO_EXPLICIT_RETURN_MSG)
         end
         alias on_def on_method_defined
 
@@ -40,7 +40,7 @@ module RuboCop
           return if allowed_returns.include?(RETURN_TYPE_EXPLICIT)
           return unless forbidden_numerics.include?(node.children.first&.type)
 
-          add_offense(node.children.first, location: :expression, message: NO_EXPLICIT_RETURN_MSG)
+          add_offense(node.children.first, message: NO_EXPLICIT_RETURN_MSG)
         end
 
         private

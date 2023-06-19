@@ -45,7 +45,7 @@ module RuboCop
           return unless illegal_argument?(node)
           return if ignored_method?(node)
 
-          add_offense(node, location: :expression, message: ARGUMENT_MSG)
+          add_offense(node, message: ARGUMENT_MSG)
         end
         alias on_send on_message_send # rubocop API method name
 
