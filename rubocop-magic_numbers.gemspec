@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 $LOAD_PATH << File.expand_path('lib', __dir__)
-require 'rubocop/cop/magic_numbers/version'
+require 'rubocop/magic_numbers/version'
 
 Gem::Specification.new do |s|
   s.name = 'rubocop-magic_numbers'
-  s.version = RuboCop::Cop::MagicNumbers::VERSION
+  s.version = RuboCop::MagicNumbers::VERSION
   s.summary = 'rubocop/magic_numbers implements a rubocop cop for detecting the use ' \
               'of bare numbers when linting'
   s.description = 'rubocop/magic_numbers implements a rubocop cop for detecting the use ' \
