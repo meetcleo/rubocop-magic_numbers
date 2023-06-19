@@ -8,6 +8,27 @@ module RuboCop
     module MagicNumbers
       class NoArgument
         class MethodTest < Minitest::Test
+          def test_ignores_methods_in_ignored_methods_config
+            @config = RuboCop::Config.new({
+                                            'MagicNumbers/NoArgument' => {
+                                              'Enabled' => true,
+                                              'IgnoredMethods' => ['[]', 'ignored_method_name']
+                                            }
+                                          })
+            @cop = described_class.new(config)
+
+            assert_includes cop.cop_config['IgnoredMethods'], '[]'
+            assert_includes cop.cop_config['IgnoredMethods'], 'ignored_method_name'
+
+            matched_numerics.each do |num|
+              inspect_source(<<~RUBY)
+                ignored_method_name(#{num})
+              RUBY
+
+              assert_no_offenses
+            end
+          end
+
           def test_detects_magic_numbers_used_as_arguments_to_methods
             matched_numerics.each do |num|
               inspect_source(<<~RUBY)
@@ -49,7 +70,7 @@ module RuboCop
           end
 
           def test_allows_magic_numbers_in_square_bracket_enum_index_arguments
-            matched_numerics(:integer).each do |num|
+            matched_numerics.each do |num|
               inspect_source(<<~RUBY)
                 my_collection[#{num}]
               RUBY

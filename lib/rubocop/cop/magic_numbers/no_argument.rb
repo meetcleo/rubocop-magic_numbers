@@ -38,7 +38,7 @@ module RuboCop
         }.freeze
 
         def cop_config
-          super.merge(DEFAULT_CONFIG)
+          DEFAULT_CONFIG.merge(super)
         end
 
         def on_message_send(node)
