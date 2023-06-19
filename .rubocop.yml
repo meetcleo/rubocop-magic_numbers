@@ -5,12 +5,15 @@ AllCops:
 require:
   - rubocop-rake
   - rubocop-minitest
-  - ./lib/rubocop/magic_numbers.rb
+  - rubocop-magic_numbers
 
 MagicNumbers/NoArgument:
   Enabled: true
 
 MagicNumbers/NoAssignment:
+  Enabled: true
+
+MagicNumbers/NoDefault:
   Enabled: true
 
 MagicNumbers/NoReturn:
