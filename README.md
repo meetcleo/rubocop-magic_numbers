@@ -40,7 +40,74 @@ $ bundle install
 
 ## Usage
 
-After installing the gem, `rubocop` should automatically detect and raise offenses for magic numbers within your code. You can customize the behavior of the gem by adding configurations to a `.rubocop.yml` file in your project's root directory.
+After installing the gem, `rubocop` should automatically detect and raise offenses for magic numbers within your code.
+
+The gem will detect offenses of the following sorts:
+
+### MagicNumbers/NoArgument
+
+Detects when magic numbers are used as method arguments.
+
+``` ruby
+# BAD
+@user.too_many_widgets?(20) # what does 20 mean?!
+
+# GOOD
+@user.too_many_widgets?(FREE_SUBSCRIPTION_WIDGET_MAX)
+
+# BAD
+monthly_average = total / 28 # why 28?
+
+# GOOD
+monthly_average = total / 4_WEEK_MONTH_IN_DAYS
+```
+
+### MagicNumbers/NoAssignment
+
+``` ruby
+# BAD
+total_widget_limit = 20 # why 20?
+
+# GOOD
+total_widget_limit = FREE_SUBSCRIPTION_WIDGET_MAX
+```
+
+### MagicNumbers/NoDefault
+
+
+``` ruby
+# BAD
+def over_widget_limit?(20)
+  # ...
+end
+
+# GOOD
+def over_widget_limit?(FREE_SUBSCRIPTION_WIDGET_MAX)
+  # ...
+end
+```
+
+
+### MagicNumbers/NoReturn
+
+
+``` ruby
+# BAD
+def widget_limit_for_user(user)
+  return 20 if user.subscription_free?
+
+  return 40
+end
+
+# GOOD
+def widget_limit_for_user(user)
+  return FREE_SUBSCRIPTION_WIDGET_MAX if user.subscription_free?
+
+  PAID_SUBSCRIPTION_WIDGET_MAX
+end
+```
+
+You can customize the behavior of the gem by adding configurations to a `.rubocop.yml` file in your project's root directory.
 
 Here are some examples of configurations you can use:
 
@@ -48,8 +115,20 @@ Here are some examples of configurations you can use:
 require:
   - rubocop-magic_numbers
 
-# TODO
-# define configs here
+MagicNumbers/NoArgument:
+  ForbiddenNumerics: All/Float/Integer # default All
+  IgnoredMethods:
+    - '[]' # defaults to just the #[] method
+
+MagicNumbers/NoAssignment:
+  ForbiddenNumerics: All/Float/Integer # default All
+
+MagicNumbers/Default:
+  ForbiddenNumerics: All/Float/Integer # default All
+
+MagicNumbers/NoReturn:
+  AllowedReturns: Implicit/Explicit/None
+  ForbiddenNumerics: All/Float/Integer # default All
 ```
 
 For more information on configuring `rubocop`, please refer to the [official documentation](https://docs.rubocop.org/rubocop/configuration.html).
