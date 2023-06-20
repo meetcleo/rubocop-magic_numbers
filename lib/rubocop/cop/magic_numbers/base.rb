@@ -2,10 +2,13 @@
 
 require 'rubocop'
 require 'rubocop/cop/cop'
+# rubocop:disable Lint/SuppressedException
+# This is only available in newer versions of the RuboCop gem
 begin
   require 'rubocop/cop/base'
 rescue LoadError
 end
+# rubocop:enable Lint/SuppressedException
 
 module RuboCop
   module Cop
