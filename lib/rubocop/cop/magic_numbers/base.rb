@@ -12,9 +12,7 @@ end
 
 module RuboCop
   module Cop
-    module MagicNumbers
-      # Base class for all shared behaviour between these cops
-
+    module MagicNumbers # rubocop:disable Style/Documentation
       def self.best_base_class
         if ::RuboCop::Cop.const_defined?('Base')
           ::RuboCop::Cop::Base
@@ -23,6 +21,7 @@ module RuboCop
         end
       end
 
+      # Base class for all shared behaviour between these cops
       class Base < best_base_class
         CONFIG_ALL = 'All'
         CONFIG_FLOAT = 'Float'
