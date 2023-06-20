@@ -35,7 +35,6 @@ module RuboCop
 
           add_offense(
             node,
-
             message: DEFAULT_OPTIONAL_ARGUMENT_MSG
           )
         end
