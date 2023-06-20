@@ -127,7 +127,7 @@ MagicNumbers/Default:
   ForbiddenNumerics: All/Float/Integer # default All
 
 MagicNumbers/NoReturn:
-  AllowedReturns: Implicit/Explicit/None
+  AllowedReturns: Implicit/Explicit/None # default None
   ForbiddenNumerics: All/Float/Integer # default All
 ```
 
