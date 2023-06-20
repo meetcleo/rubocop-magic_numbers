@@ -59,7 +59,7 @@ Detects when magic numbers are used as method arguments.
 monthly_average = total / 28 # why 28?
 
 # GOOD
-monthly_average = total / 4_WEEK_MONTH_IN_DAYS
+monthly_average = total / FOUR_WEEK_MONTH_IN_DAYS
 ```
 
 ### MagicNumbers/NoAssignment
