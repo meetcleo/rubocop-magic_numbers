@@ -51,6 +51,15 @@ module RuboCop
               end
             end
 
+            # Explicitly tests this popular use case
+            def test_allows_magic_integers_permitted_in_config_used_with_increment
+              inspect_source(<<~RUBY)
+                foo += #{ARBITRARY_INTEGER_TO_PERMIT}
+              RUBY
+
+              assert_no_offenses
+            end
+
             def test_allows_magic_integers_permitted_in_config_when_left_operand
               @config = RuboCop::Config.new({
                                               'MagicNumbers/NoArgument' => {
