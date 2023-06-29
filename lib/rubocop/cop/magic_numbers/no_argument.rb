@@ -69,7 +69,7 @@ module RuboCop
               illegal_scalar_pattern:
             )
           )
-          captured_value.present? && !permitted_values.include?(captured_value)
+          captured_value && !permitted_values.include?(captured_value)
         end
 
         def permitted_values
