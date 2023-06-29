@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubocop-magic_numbers (0.2.0)
+    rubocop-magic_numbers (0.3.0)
       parser
       rubocop
 
