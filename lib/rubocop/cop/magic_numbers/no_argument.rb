@@ -18,9 +18,9 @@ module RuboCop
             {
               _
               _
-              (%<illegal_scalar_pattern>s _)
+              (%<illegal_scalar_pattern>s $_)
               | # This is a union of lhs and rhs literal
-              (%<illegal_scalar_pattern>s _)
+              (%<illegal_scalar_pattern>s $_)
               _
               _
             }
@@ -62,13 +62,18 @@ module RuboCop
         end
 
         def illegal_argument?(node)
-          node_matches_pattern?(
+          captured_value = node_matches_pattern?(
             node:,
             pattern: format(
               MAGIC_NUMBER_ARGUMENT_PATTERN,
               illegal_scalar_pattern:
             )
           )
+          captured_value.present? && !permitted_values.include?(captured_value)
+        end
+
+        def permitted_values
+          Array(cop_config['PermittedValues'])
         end
       end
     end
