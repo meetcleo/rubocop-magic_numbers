@@ -119,7 +119,9 @@ MagicNumbers/NoArgument:
   ForbiddenNumerics: All/Float/Integer # default All
   IgnoredMethods:
     - '[]' # defaults to just the #[] method
-
+  PermittedValues: # defaults to []
+    - -1
+    - 1
 MagicNumbers/NoAssignment:
   ForbiddenNumerics: All/Float/Integer # default All
 
