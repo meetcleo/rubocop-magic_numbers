@@ -1,6 +1,5 @@
 # rubocop-magic_numbers
 
-
 ![Ruby tests](https://github.com/meetcleo/rubocop-magic_numbers/actions/workflows/ruby.yml/badge.svg)
 ![RuboCop Lint](https://github.com/meetcleo/rubocop-magic_numbers/actions/workflows/rubocop.yml/badge.svg)
 
