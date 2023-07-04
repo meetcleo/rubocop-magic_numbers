@@ -1,7 +1,8 @@
 # rubocop-magic_numbers
 
-![Ruby tests](https://github.com/bodacious/rubocop-magic_numbers/actions/workflows/ruby.yml/badge.svg)
-![RuboCop Lint](https://github.com/bodacious/rubocop-magic_numbers/actions/workflows/rubocop.yml/badge.svg)
+
+![Ruby tests](https://github.com/meetcleo/rubocop-magic_numbers/actions/workflows/ruby.yml/badge.svg)
+![RuboCop Lint](https://github.com/meetcleo/rubocop-magic_numbers/actions/workflows/rubocop.yml/badge.svg)
 
 
 `rubocop-magic_numbers` is a gem that detects the use of magic numbers within Ruby code and raises them as offenses.
@@ -137,7 +138,7 @@ For more information on configuring `rubocop`, please refer to the [official doc
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/bodacious/rubocop-magic_numbers. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](https://www.contributor-covenant.org/) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/meetcleo/rubocop-magic_numbers. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](https://www.contributor-covenant.org/) code of conduct.
 
 ## License
 
