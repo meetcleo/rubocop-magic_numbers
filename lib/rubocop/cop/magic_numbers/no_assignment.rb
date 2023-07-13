@@ -77,10 +77,10 @@ module RuboCop
 
         def illegal_scalar_argument_to_setter?(node)
           method = node_matches_pattern?(
-            node:,
+            node: node,
             pattern: format(
               MAGIC_NUMBER_ARGUMENT_TO_SETTER_PATTERN,
-              illegal_scalar_pattern:
+              illegal_scalar_pattern: illegal_scalar_pattern
             )
           )
 
@@ -89,10 +89,10 @@ module RuboCop
 
         def illegal_multi_assign_right_hand_side?(node)
           node_matches_pattern?(
-            node:,
+            node: node,
             pattern: format(
               MAGIC_NUMBER_MULTI_ASSIGN_PATTERN,
-              illegal_scalar_pattern:
+              illegal_scalar_pattern: illegal_scalar_pattern
             )
           )
         end

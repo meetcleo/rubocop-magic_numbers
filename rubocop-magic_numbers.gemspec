@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
     %w[README.md]
 
   s.require_path = 'lib'
-  s.required_ruby_version = Gem::Requirement.new('>= 3.2.0')
+  s.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
 
   s.authors = ['Gavin Morrice', 'Fell Sunderland']
   s.email = ['gavin@gavinmorrice.com', 'fell@meetcleo.com']

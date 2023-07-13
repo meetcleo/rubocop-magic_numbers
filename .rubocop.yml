@@ -1,6 +1,7 @@
 AllCops:
   NewCops: enable
   SuggestExtensions: true
+  TargetRubyVersion: 2.7
 
 require:
   - rubocop-rake

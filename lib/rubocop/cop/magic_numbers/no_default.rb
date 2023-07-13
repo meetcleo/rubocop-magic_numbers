@@ -44,10 +44,10 @@ module RuboCop
 
         def illegal_positional_default?(node)
           node_matches_pattern?(
-            node:,
+            node: node,
             pattern: format(
               MAGIC_NUMBER_OPTIONAL_ARGUMENT_PATTERN,
-              illegal_scalar_pattern:
+              illegal_scalar_pattern: illegal_scalar_pattern
             )
           )
         end
