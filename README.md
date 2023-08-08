@@ -77,16 +77,15 @@ total_widget_limit = FREE_SUBSCRIPTION_WIDGET_MAX
 
 ``` ruby
 # BAD
-def over_widget_limit?(20)
+def over_widget_limit?(limit = 20)
   # ...
 end
 
 # GOOD
-def over_widget_limit?(FREE_SUBSCRIPTION_WIDGET_MAX)
+def over_widget_limit?(limit = FREE_SUBSCRIPTION_WIDGET_MAX)
   # ...
 end
 ```
-
 
 ### MagicNumbers/NoReturn
 
