@@ -17,7 +17,7 @@ module RuboCop
               RUBY
 
               assert_offense(
-                cop_name:,
+                cop_name: cop_name,
                 violation_message: described_class::NO_EXPLICIT_RETURN_MSG
               )
             end
@@ -34,7 +34,7 @@ module RuboCop
               RUBY
 
               assert_offense(
-                cop_name:,
+                cop_name: cop_name,
                 violation_message: described_class::NO_EXPLICIT_RETURN_MSG
               )
             end
@@ -49,7 +49,7 @@ module RuboCop
               RUBY
 
               assert_offense(
-                cop_name:,
+                cop_name: cop_name,
                 violation_message: described_class::NO_EXPLICIT_RETURN_MSG
               )
             end
@@ -66,7 +66,7 @@ module RuboCop
               RUBY
 
               assert_offense(
-                cop_name:,
+                cop_name: cop_name,
                 violation_message: described_class::NO_EXPLICIT_RETURN_MSG
               )
             end
@@ -87,7 +87,7 @@ module RuboCop
                 end
               RUBY
 
-              assert_no_offenses(cop_name:)
+              assert_no_offenses(cop_name: cop_name)
             end
           end
 
@@ -108,7 +108,7 @@ module RuboCop
                 end
               RUBY
 
-              assert_no_offenses(cop_name:)
+              assert_no_offenses(cop_name: cop_name)
             end
           end
 

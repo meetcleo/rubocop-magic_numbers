@@ -54,9 +54,9 @@ module RuboCop
           return implicit_return?(node.children.last) if is_node_begin_type
 
           pattern = format(MAGIC_NUMBER_RETURN_PATTERN, {
-                             illegal_scalar_pattern:
+                             illegal_scalar_pattern: illegal_scalar_pattern
                            })
-          node_matches_pattern?(node:, pattern:)
+          node_matches_pattern?(node: node, pattern: pattern)
         end
       end
     end

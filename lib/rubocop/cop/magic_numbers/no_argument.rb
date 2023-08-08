@@ -63,10 +63,10 @@ module RuboCop
 
         def illegal_argument?(node)
           captured_value = node_matches_pattern?(
-            node:,
+            node: node,
             pattern: format(
               MAGIC_NUMBER_ARGUMENT_PATTERN,
-              illegal_scalar_pattern:
+              illegal_scalar_pattern: illegal_scalar_pattern
             )
           )
           captured_value && !permitted_values.include?(captured_value)
