@@ -134,6 +134,30 @@ MagicNumbers/NoReturn:
 
 For more information on configuring `rubocop`, please refer to the [official documentation](https://docs.rubocop.org/rubocop/configuration.html).
 
+## Rails usage
+
+If using as part of a Ruby on Rails project, you may want to add the following to your RuboCop configuration:
+
+``` YAML
+MagicNumbers/NoArgument:
+  Exclude:
+    - config/application.rb
+    - db/migrate/*.rb
+```
+
+This will prevent RuboCop from complainig about Rails version numbers in your migration files and application config.
+
+``` ruby
+class AddBankCardIdToUsers < ActiveRecord::Migration[7.1] # <= here
+end
+
+module Cleo
+  class Application < Rails::Application
+    config.load_defaults 7.1 # <= here
+  end
+end
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/meetcleo/rubocop-magic_numbers. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](https://www.contributor-covenant.org/) code of conduct.
