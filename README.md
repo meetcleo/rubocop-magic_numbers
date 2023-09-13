@@ -148,13 +148,14 @@ MagicNumbers/NoArgument:
 This will prevent RuboCop from complainig about Rails version numbers in your migration files and application config.
 
 ``` ruby
-class AddBankCardIdToUsers < ActiveRecord::Migration[7.1] # <= here
-end
-
 module Cleo
   class Application < Rails::Application
     config.load_defaults 7.1 # <= here
   end
+end
+
+# If you remove `[]` from ignored methods, you might want to add this
+class AddBankCardIdToUsers < ActiveRecord::Migration[7.1]
 end
 ```
 
