@@ -19,7 +19,7 @@ module TestHelper
     assert_equal(matching_offenses.first.message, violation_message) if matching_offenses.any?
   end
 
-  def assert_no_offenses(cop_name = nil)
+  def assert_no_offenses(cop_name: nil)
     raise NotImplementedError, "Please call `inspect_source' before making assertions" unless @offenses
 
     matching_offenses = cop_name.nil? ? @offenses : @offenses.select { _1.cop_name == cop_name }
