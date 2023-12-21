@@ -75,13 +75,13 @@ module RuboCop
           end
 
           def test_allows_implicit_return_of_an_integer_when_config_set
-            @config = update_config({
-                            'MagicNumbers/NoReturn' => {
-                              'Enabled' => true,
-                              'ForbiddenNumerics' => 'Integer',
-                              'AllowedReturns' => ['Implicit']
-                            }
-                          })
+            @config = RuboCop::Config.new({
+                                            'MagicNumbers/NoReturn' => {
+                                              'Enabled' => true,
+                                              'ForbiddenNumerics' => 'Integer',
+                                              'AllowedReturns' => ['Implicit']
+                                            }
+                                          })
             @cop = described_class.new(config)
 
             matched_numerics(:integer).each do |num|
@@ -96,13 +96,13 @@ module RuboCop
           end
 
           def test_allows_explicit_return_of_an_integer_when_config_set
-            @config = update_config({
-                            'MagicNumbers/NoReturn' => {
-                              'Enabled' => true,
-                              'ForbiddenNumerics' => 'Integer',
-                              'AllowedReturns' => ['Explicit']
-                            }
-                          })
+            @config = RuboCop::Config.new({
+                                            'MagicNumbers/NoReturn' => {
+                                              'Enabled' => true,
+                                              'ForbiddenNumerics' => 'Integer',
+                                              'AllowedReturns' => ['Explicit']
+                                            }
+                                          })
             @cop = described_class.new(config)
 
             matched_numerics(:integer).each do |num|

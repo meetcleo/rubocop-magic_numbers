@@ -72,7 +72,7 @@ module RuboCop
                 #{ARBITRARY_INTEGER_TO_PERMIT} + bar
               RUBY
 
-              assert_no_offenses(cop_name:)
+              assert_no_offenses(cop_name: cop_name)
             end
 
             def test_allows_magic_integers_permitted_in_config_when_right_operand
@@ -87,7 +87,7 @@ module RuboCop
                 foo + #{ARBITRARY_INTEGER_TO_PERMIT}
               RUBY
 
-              assert_no_offenses(cop_name:)
+              assert_no_offenses(cop_name: cop_name)
             end
 
             def test_allows_magic_integers_permitted_in_config_as_positional_arg
@@ -102,7 +102,7 @@ module RuboCop
                 object.call(#{ARBITRARY_INTEGER_TO_PERMIT})
               RUBY
 
-              assert_no_offenses(cop_name:)
+              assert_no_offenses(cop_name: cop_name)
             end
 
             def test_allows_magic_integers_permitted_in_config_as_keyword_arg
@@ -117,7 +117,7 @@ module RuboCop
                 object.call(val: #{ARBITRARY_INTEGER_TO_PERMIT})
               RUBY
 
-              assert_no_offenses(cop_name:)
+              assert_no_offenses(cop_name: cop_name)
             end
 
             private
