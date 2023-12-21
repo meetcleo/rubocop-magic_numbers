@@ -118,6 +118,27 @@ module RuboCop
             end
           end
 
+          def test_allows_explicit_return_of_an_integer_when_config_set
+            @config = RuboCop::Config.new({
+                                            'MagicNumbers/NoReturn' => {
+                                              'Enabled' => true,
+                                              'ForbiddenNumerics' => 'Integer',
+                                              'PermittedReturnValues' => [ARBITRARY_INTEGER_TO_PERMIT]
+                                            }
+                                          })
+            @cop = described_class.new(config)
+
+            inspect_source(<<~RUBY)
+              def test_method
+                return #{ARBITRARY_INTEGER_TO_PERMIT}
+
+                #{ARBITRARY_INTEGER_TO_PERMIT}
+              end
+            RUBY
+
+            assert_no_offenses(cop_name: cop_name)
+          end
+
           private
 
           def described_class
