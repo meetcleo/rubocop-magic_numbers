@@ -2,3 +2,4 @@
 .bundle
 spec
 *.gem
+.idea
