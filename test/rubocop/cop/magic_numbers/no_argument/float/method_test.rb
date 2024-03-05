@@ -63,7 +63,7 @@ module RuboCop
                 #{ARBITRARY_FLOAT_TO_PERMIT} + bar
               RUBY
 
-              assert_no_offenses('MagicNumbers/NoArgument')
+              assert_no_offenses(cop_name: cop_name)
             end
 
             def test_allows_magic_floats_permitted_in_config_when_right_operand
@@ -78,7 +78,7 @@ module RuboCop
                 foo + #{ARBITRARY_FLOAT_TO_PERMIT}
               RUBY
 
-              assert_no_offenses('MagicNumbers/NoArgument')
+              assert_no_offenses(cop_name: cop_name)
             end
 
             def test_allows_magic_floats_permitted_in_config_as_positional_arg
@@ -93,7 +93,7 @@ module RuboCop
                 object.call(#{ARBITRARY_FLOAT_TO_PERMIT})
               RUBY
 
-              assert_no_offenses('MagicNumbers/NoArgument')
+              assert_no_offenses(cop_name: cop_name)
             end
 
             def test_allows_magic_floats_permitted_in_config_as_keyword_arg
@@ -108,7 +108,7 @@ module RuboCop
                 object.call(val: #{ARBITRARY_FLOAT_TO_PERMIT})
               RUBY
 
-              assert_no_offenses('MagicNumbers/NoArgument')
+              assert_no_offenses(cop_name: cop_name)
             end
 
             private
@@ -126,6 +126,10 @@ module RuboCop
 
             def cop
               @cop ||= described_class.new(config)
+            end
+
+            def cop_name
+              cop.cop_name
             end
 
             def config

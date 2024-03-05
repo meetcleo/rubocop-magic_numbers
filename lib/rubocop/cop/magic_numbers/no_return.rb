@@ -9,28 +9,31 @@ module RuboCop
       # Catches both explicit and implicit returns
       class NoReturn < RuboCop::Cop::MagicNumbers::Base
         MAGIC_NUMBER_RETURN_PATTERN = <<~PATTERN.chomp
-          (%<illegal_scalar_pattern>s _)
+          (%<illegal_scalar_pattern>s $_)
         PATTERN
         NO_EXPLICIT_RETURN_MSG = 'Do not return magic numbers from a method or proc'
 
         CONFIG_NAME_ALLOWED_RETURNS = 'AllowedReturns'
+        CONFIG_NAME_PERMITTED_RETURN_VALUES = 'PermittedReturnValues'
 
         RETURN_TYPE_IMPLICIT = 'Implicit'
         RETURN_TYPE_EXPLICIT = 'Explicit'
         RETURN_TYPE_NONE = 'None'
 
-        # Supported values are 'Explicit', 'Implicit', 'None'
         DEFAULT_CONFIG = {
-          CONFIG_NAME_ALLOWED_RETURNS => [RETURN_TYPE_NONE]
+          # Supported values are 'Explicit', 'Implicit', 'None'
+          CONFIG_NAME_ALLOWED_RETURNS => [RETURN_TYPE_NONE],
+          CONFIG_NAME_PERMITTED_RETURN_VALUES => []
         }.freeze
 
         def cop_config
-          super.merge(DEFAULT_CONFIG)
+          DEFAULT_CONFIG.merge(super)
         end
 
         def on_method_defined(node)
           return if allowed_returns.include?(RETURN_TYPE_IMPLICIT)
-          return unless implicit_return?(node.children.last)
+          return unless (captured_value = implicit_return?(node.children.last))
+          return if permitted_return_values.include?(captured_value)
 
           add_offense(node.children.last, message: NO_EXPLICIT_RETURN_MSG)
         end
@@ -39,6 +42,7 @@ module RuboCop
         def on_return(node)
           return if allowed_returns.include?(RETURN_TYPE_EXPLICIT)
           return unless forbidden_numerics.include?(node.children.first&.type)
+          return if permitted_return_values.include?(node.children.first&.value)
 
           add_offense(node.children.first, message: NO_EXPLICIT_RETURN_MSG)
         end
@@ -57,6 +61,10 @@ module RuboCop
                              illegal_scalar_pattern: illegal_scalar_pattern
                            })
           node_matches_pattern?(node: node, pattern: pattern)
+        end
+
+        def permitted_return_values
+          Array(cop_config['PermittedReturnValues'])
         end
       end
     end
