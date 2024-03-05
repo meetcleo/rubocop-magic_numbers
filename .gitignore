@@ -3,3 +3,4 @@
 spec
 *.gem
 .idea
+Gemfile.lock
