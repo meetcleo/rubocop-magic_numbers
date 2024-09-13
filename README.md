@@ -124,7 +124,7 @@ MagicNumbers/NoArgument:
 MagicNumbers/NoAssignment:
   ForbiddenNumerics: All/Float/Integer # default All
 
-MagicNumbers/Default:
+MagicNumbers/NoDefault:
   ForbiddenNumerics: All/Float/Integer # default All
 
 MagicNumbers/NoReturn:
