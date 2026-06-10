@@ -24,7 +24,10 @@ module RuboCop
         MAGIC_NUMBER_MULTI_ASSIGN_PATTERN = <<-PATTERN
           (masgn
             (mlhs ({lvasgn ivasgn send} ...)+)
-            $(array <(%<illegal_scalar_pattern>s _) ...>)
+            {
+              $(%<illegal_scalar_pattern>s _)
+              $(array <(%<illegal_scalar_pattern>s _) ...>)
+            }
           )
         PATTERN
         LOCAL_VARIABLE_ASSIGN_MSG = 'Do not use magic number local variables'
@@ -119,7 +122,8 @@ module RuboCop
         def illegal_scalar_expressions(expression)
           return [] unless expression
 
-          expression.children.select { |child_expression| illegal_scalar_expression?(child_expression) }
+          expressions = expression.array_type? ? expression.children : [expression]
+          expressions.select { |child_expression| illegal_scalar_expression?(child_expression) }
         end
 
         def permitted_value?(value)

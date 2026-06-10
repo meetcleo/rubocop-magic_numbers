@@ -106,6 +106,26 @@ module RuboCop
             assert_no_offenses
           end
 
+          def test_detects_multiple_assignment_with_single_unpermitted_right_hand_side_value
+            inspect_source(<<~RUBY)
+              def test_method
+                first, second = 2
+              end
+            RUBY
+
+            assert_multiple_assignment_offense
+          end
+
+          def test_allows_multiple_assignment_with_single_permitted_right_hand_side_value
+            inspect_source(<<~RUBY)
+              def test_method
+                first, second = 1
+              end
+            RUBY
+
+            assert_no_offenses
+          end
+
           def test_allows_permitted_float_assignment
             @config = RuboCop::Config.new(
               'MagicNumbers/NoAssignment' => {

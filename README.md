@@ -148,6 +148,7 @@ first, second = 0, 1
 
 # Still detected as an offense
 retry_limit = 3
+first, second = 2
 first, second = 0, 2
 first, second = 2, 0
 first, second = 2, 3
