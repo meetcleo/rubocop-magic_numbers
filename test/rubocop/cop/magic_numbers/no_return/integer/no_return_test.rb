@@ -118,7 +118,7 @@ module RuboCop
             end
           end
 
-          def test_allows_explicit_return_of_an_integer_when_config_set
+          def test_allows_permitted_explicit_return_value_when_config_set
             @config = RuboCop::Config.new({
                                             'MagicNumbers/NoReturn' => {
                                               'Enabled' => true,
