@@ -123,6 +123,9 @@ MagicNumbers/NoArgument:
     - 1
 MagicNumbers/NoAssignment:
   ForbiddenNumerics: All/Float/Integer # default All
+  PermittedValues: # defaults to []
+    - 0
+    - 1
 
 MagicNumbers/NoDefault:
   ForbiddenNumerics: All/Float/Integer # default All
@@ -130,6 +133,24 @@ MagicNumbers/NoDefault:
 MagicNumbers/NoReturn:
   AllowedReturns: Implicit/Explicit/None # default None
   ForbiddenNumerics: All/Float/Integer # default All
+```
+
+`MagicNumbers/NoAssignment` can be configured with `PermittedValues` when some
+assigned values do not need the same explanation as other numeric values. This
+allows configured values in local variable, instance variable, property, and
+multiple assignments. Unpermitted magic numbers are still detected:
+
+```ruby
+# Allowed when MagicNumbers/NoAssignment permits 0 and 1
+count = 0
+@total = 1
+first, second = 0, 1
+
+# Still detected as an offense
+retry_limit = 3
+first, second = 0, 2
+first, second = 2, 0
+first, second = 2, 3
 ```
 
 For more information on configuring `rubocop`, please refer to the [official documentation](https://docs.rubocop.org/rubocop/configuration.html).

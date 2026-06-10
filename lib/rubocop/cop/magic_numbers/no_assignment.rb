@@ -17,14 +17,14 @@ module RuboCop
           (send
             ({send self} ...)
             $_
-            (%<illegal_scalar_pattern>s _)
+            $(%<illegal_scalar_pattern>s _)
           )
         PATTERN
 
         MAGIC_NUMBER_MULTI_ASSIGN_PATTERN = <<-PATTERN
           (masgn
             (mlhs ({lvasgn ivasgn send} ...)+)
-            (array <(%<illegal_scalar_pattern>s _) ...>)
+            $(array <(%<illegal_scalar_pattern>s _) ...>)
           )
         PATTERN
         LOCAL_VARIABLE_ASSIGN_MSG = 'Do not use magic number local variables'
@@ -32,7 +32,8 @@ module RuboCop
         MULTIPLE_ASSIGN_MSG = 'Do not use magic numbers in multiple assignments'
         PROPERTY_MSG = 'Do not use magic numbers to set properties'
         DEFAULT_CONFIG = {
-          'AllowedAssignments' => %w[class_variables global_variables]
+          'AllowedAssignments' => %w[class_variables global_variables],
+          'PermittedValues' => []
         }.freeze
 
         def cop_config
@@ -76,7 +77,7 @@ module RuboCop
         private
 
         def illegal_scalar_argument_to_setter?(node)
-          method = node_matches_pattern?(
+          method, value = node_matches_pattern?(
             node: node,
             pattern: format(
               MAGIC_NUMBER_ARGUMENT_TO_SETTER_PATTERN,
@@ -84,17 +85,19 @@ module RuboCop
             )
           )
 
-          method&.end_with?('=')
+          method&.end_with?('=') && illegal_scalar_expression?(value)
         end
 
         def illegal_multi_assign_right_hand_side?(node)
-          node_matches_pattern?(
+          multiple_assignment_value = node_matches_pattern?(
             node: node,
             pattern: format(
               MAGIC_NUMBER_MULTI_ASSIGN_PATTERN,
               illegal_scalar_pattern: illegal_scalar_pattern
             )
           )
+
+          illegal_scalar_expressions(multiple_assignment_value).any?
         end
 
         def illegal_scalar_value?(node)
@@ -103,7 +106,28 @@ module RuboCop
           # multiassignment nodes contain individual assignments in their AST
           # representations, but they aren't aware of their values, so we need to
           # allow for expressionless assignments
-          forbidden_numerics.include?(node.expression&.type)
+          illegal_scalar_expression?(node.expression)
+        end
+
+        def illegal_scalar_expression?(expression)
+          return false unless expression
+          return false unless forbidden_numerics.include?(expression.type)
+
+          !permitted_value?(expression.value)
+        end
+
+        def illegal_scalar_expressions(expression)
+          return [] unless expression
+
+          expression.children.select { |child_expression| illegal_scalar_expression?(child_expression) }
+        end
+
+        def permitted_value?(value)
+          permitted_values.include?(value)
+        end
+
+        def permitted_values
+          Array(cop_config['PermittedValues'])
         end
       end
     end
