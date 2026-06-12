@@ -126,6 +126,7 @@ MagicNumbers/NoAssignment:
   PermittedValues: # defaults to []
     - 0
     - 1
+    - 3.14
 
 MagicNumbers/NoDefault:
   ForbiddenNumerics: All/Float/Integer # default All
